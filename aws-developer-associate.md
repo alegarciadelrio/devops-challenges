@@ -366,7 +366,7 @@ Amazon API Gateway is a fully managed service that makes it easy for developers 
 
 - **CORS**: Enable CORS for the method in API GW if you request from other domain like S3 bucket.
 - **IAM Roles and Policies**: Control access using IAM
-- **Lambda Authorizers**: Custom authorization with Lambda functions
+- **Lambda Authorizers**: Custom authorization with Lambda functions. It is an API Gateway feature that uses a Lambda function to control access to your API.
 - **Cognito User Pools**: User authentication with Cognito
 - **API Keys**: Identify and authorize API clients
 - **Resource Policies**: Control who can invoke the API
