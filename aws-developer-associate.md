@@ -100,6 +100,10 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 - **Provisioned Concurrency**: Pre-initialized execution environments
 - **Account Concurrency Limit**: Default 1,000 concurrent executions per region
 
+### Lambda@Edge
+
+- **Lambda@Edge**: functions can only be created in the us-east-1.
+
 ### <a name="lambda-code-examples"></a>Code Examples
 
 **Node.js Lambda Function:**
