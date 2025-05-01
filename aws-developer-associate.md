@@ -25,6 +25,12 @@
   - [Security](#security)
   - [Performance](#performance)
   - [Code Examples](#s3-code-examples)
+- [Amazon SQS](#amazon-sqs)
+  - [Queue Types](#queue-types)
+  - [Message Processing](#message-processing)
+  - [Visibility Timeout](#visibility-timeout)
+  - [Dead-Letter Queues](#dead-letter-queues)
+  - [Code Examples](#sqs-code-examples)
 - [AWS API Gateway](#aws-api-gateway)
   - [Endpoint Types](#endpoint-types)
   - [Integration Types](#integration-types)
@@ -91,8 +97,8 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 
 - **Cold Start**: First invocation or after a period of inactivity
 - **Warm Start**: Subsequent invocations reuse the container
-- **Execution Context**: Environment where your function runs
-- **Handler Function**: Entry point for Lambda execution
+- **Execution Context**: Environment where your function runs. The context object in a Lambda function provides metadata about the function and the current invocation, included context.awsRequestId.
+- **Handler Function**: Entry point for Lambda execution. Initialize SDK clients and database connections outside of the function handler,  take advantage of execution environment reuse.
 
 ### Concurrency
 
@@ -335,6 +341,215 @@ function generatePresignedUrl(bucketName, key, expirationSeconds = 3600) {
     }
 }
 ```
+---
+
+## Amazon SQS
+
+Amazon Simple Queue Service (SQS) is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications.
+
+### Queue Types
+
+- **Standard Queues**: 
+  - Nearly unlimited throughput
+  - At-least-once delivery
+  - Best-effort ordering
+  - Suitable for most use cases where high throughput is required
+  - ReceiveMessage API retrieves one or more messages
+
+- **FIFO Queues**: 
+  - First-In-First-Out delivery guarantee
+  - Exactly-once processing
+  - Limited to 300 transactions per second (TPS) per API method
+  - Suitable for applications where order of operations is critical
+
+### Message Processing
+
+- **Message Lifecycle**:
+  1. Producer sends message to queue
+  2. Message is distributed across SQS servers
+  3. Consumer polls queue and processes message
+  4. Consumer deletes message from queue
+
+- **Long Polling vs Short Polling**:
+  - **Short Polling**: Returns immediately, even if queue is empty
+  - **Long Polling**: Waits for messages to arrive (up to 20 seconds), reducing empty responses and API calls
+
+### Visibility Timeout
+
+- Period during which a message is invisible to other consumers after being retrieved
+- Default: 30 seconds, Maximum: 12 hours
+- Can be extended for messages that need longer processing time
+- If not deleted before timeout expires, message becomes visible again
+
+### Dead-Letter Queues
+
+- Destination for messages that fail processing multiple times
+- Useful for:
+  - Isolating problematic messages for debugging
+  - Analyzing failed message patterns
+  - Implementing custom retry logic
+- Configure with `RedrivePolicy` that specifies `maxReceiveCount`
+
+### <a name="sqs-code-examples"></a>Code Examples
+
+**SQS Operations with AWS SDK for JavaScript:**
+```javascript
+const AWS = require('aws-sdk');
+const sqs = new AWS.SQS({ region: 'us-east-1' });
+
+// Send message to SQS queue
+async function sendMessage(queueUrl, messageBody, messageGroupId = null) {
+    const params = {
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(messageBody),
+        // Required for FIFO queues
+        ...(messageGroupId && { MessageGroupId: messageGroupId }),
+        // Optional message deduplication ID for FIFO queues
+        ...(messageGroupId && { MessageDeduplicationId: `${Date.now()}-${Math.random()}` })
+    };
+    
+    try {
+        const result = await sqs.sendMessage(params).promise();
+        console.log('Message sent successfully:', result.MessageId);
+        return result.MessageId;
+    } catch (error) {
+        console.error('Error sending message:', error);
+        throw error;
+    }
+}
+
+// Receive messages from SQS queue
+async function receiveMessages(queueUrl, maxMessages = 10, waitTimeSeconds = 20) {
+    const params = {
+        QueueUrl: queueUrl,
+        MaxNumberOfMessages: maxMessages,
+        WaitTimeSeconds: waitTimeSeconds, // Long polling
+        VisibilityTimeout: 30
+    };
+    
+    try {
+        const result = await sqs.receiveMessage(params).promise();
+        return result.Messages || [];
+    } catch (error) {
+        console.error('Error receiving messages:', error);
+        return [];
+    }
+}
+
+// Delete message from SQS queue
+async function deleteMessage(queueUrl, receiptHandle) {
+    const params = {
+        QueueUrl: queueUrl,
+        ReceiptHandle: receiptHandle
+    };
+    
+    try {
+        await sqs.deleteMessage(params).promise();
+        console.log('Message deleted successfully');
+        return true;
+    } catch (error) {
+        console.error('Error deleting message:', error);
+        return false;
+    }
+}
+
+// Change message visibility timeout
+async function changeMessageVisibility(queueUrl, receiptHandle, visibilityTimeout) {
+    const params = {
+        QueueUrl: queueUrl,
+        ReceiptHandle: receiptHandle,
+        VisibilityTimeout: visibilityTimeout
+    };
+    
+    try {
+        await sqs.changeMessageVisibility(params).promise();
+        console.log(`Visibility timeout changed to ${visibilityTimeout} seconds`);
+        return true;
+    } catch (error) {
+        console.error('Error changing message visibility:', error);
+        return false;
+    }
+}
+```
+
+**SQS Operations with AWS SDK for Python:**
+```python
+import json
+import boto3
+import uuid
+from datetime import datetime
+
+# Initialize SQS client
+sqs = boto3.client('sqs', region_name='us-east-1')
+
+# Send message to SQS queue
+def send_message(queue_url, message_body, message_group_id=None):
+    params = {
+        'QueueUrl': queue_url,
+        'MessageBody': json.dumps(message_body)
+    }
+    
+    # Add FIFO queue specific parameters if needed
+    if message_group_id:
+        params['MessageGroupId'] = message_group_id
+        params['MessageDeduplicationId'] = f"{datetime.now().timestamp()}-{uuid.uuid4()}"
+    
+    try:
+        response = sqs.send_message(**params)
+        print(f"Message sent successfully: {response['MessageId']}")
+        return response['MessageId']
+    except Exception as e:
+        print(f"Error sending message: {e}")
+        raise e
+
+# Receive messages from SQS queue
+def receive_messages(queue_url, max_messages=10, wait_time_seconds=20):
+    try:
+        response = sqs.receive_message(
+            QueueUrl=queue_url,
+            MaxNumberOfMessages=max_messages,
+            WaitTimeSeconds=wait_time_seconds,  # Long polling
+            VisibilityTimeout=30
+        )
+        return response.get('Messages', [])
+    except Exception as e:
+        print(f"Error receiving messages: {e}")
+        return []
+
+# Delete message from SQS queue
+def delete_message(queue_url, receipt_handle):
+    try:
+        sqs.delete_message(
+            QueueUrl=queue_url,
+            ReceiptHandle=receipt_handle
+        )
+        print("Message deleted successfully")
+        return True
+    except Exception as e:
+        print(f"Error deleting message: {e}")
+        return False
+
+# Process messages from SQS queue
+def process_messages(queue_url):
+    messages = receive_messages(queue_url)
+    
+    for message in messages:
+        try:
+            # Parse message body
+            body = json.loads(message['Body'])
+            print(f"Processing message: {body}")
+            
+            # Process the message (replace with your business logic)
+            # ...
+            
+            # Delete the message after successful processing
+            delete_message(queue_url, message['ReceiptHandle'])
+        except Exception as e:
+            print(f"Error processing message: {e}")
+            # Consider extending visibility timeout if processing failed
+            # but might succeed with more time
+```
+
 ---
 
 ## EBS
