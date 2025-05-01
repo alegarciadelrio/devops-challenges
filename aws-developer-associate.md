@@ -184,7 +184,7 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 - **Items**: Collection of attributes (similar to columns)
 - **Primary Key**: Uniquely identifies each item in a table
   - **Partition Key**: Simple primary key
-  - **Partition Key + Sort Key**: Composite primary key
+  - **Partition Key + Sort Key**: Composite primary key. Sort key ideally to group related items using range queries.
 
 ### Capacity Modes
 
@@ -195,7 +195,7 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 ### Indexes
 
 - **Local Secondary Index (LSI)**: Same partition key as table but different sort key
-- **Global Secondary Index (GSI)**: Different partition key and optional sort key
+- **Global Secondary Index (GSI)**: Different partition key and optional sort key. Contains a set of attributes from the base table, but organized by a different primary key than the table.
 - **Sparse Indexes**: Only contain items that have the indexed attribute
 
 ### <a name="dynamodb-code-examples"></a>Code Examples
