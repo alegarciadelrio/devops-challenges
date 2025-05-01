@@ -44,6 +44,12 @@
 - [AWS X-Ray](#aws-x-ray)
   - [Key Concepts](#x-ray-key-concepts)
   - [Instrumentation](#instrumentation)
+- [AWS CloudWatch](#aws-cloudwatch)
+  - [Metrics](#metrics)
+  - [Alarms](#alarms)
+  - [Logs](#logs)
+  - [Events](#events)
+  - [Code Examples](#cloudwatch-code-examples)
 - [Exam Preparation Tips](#exam-preparation-tips)
 - [Additional Resources](#additional-resources)
 
@@ -655,6 +661,363 @@ AWS X-Ray helps developers analyze and debug distributed applications, providing
 - **X-Ray Daemon**: Collects and buffers segments before sending to X-Ray
 - **X-Ray API**: Send trace data directly to X-Ray
 - **Integration with AWS services**: Automatic instrumentation
+
+---
+
+## AWS CloudWatch
+
+Amazon CloudWatch is a monitoring and observability service that provides data and actionable insights for AWS resources and applications.
+
+### Metrics
+
+- **Standard Metrics**: Automatically collected for AWS services
+- **Custom Metrics**: User-defined metrics for applications or business data
+- **Metric Resolution**: Standard (1-minute) or High Resolution (1-second)
+- **Metric Math**: Perform calculations across multiple metrics
+- **Metric Retention**: 15 months by default, with different aggregation levels
+
+### Alarms
+
+- **Metric Alarms**: Monitor a single CloudWatch metric or expression
+- **Composite Alarms**: Monitor multiple alarms using logical operators (AND, OR)
+- **Alarm States**: OK, ALARM, INSUFFICIENT_DATA
+- **Alarm Actions**:
+  - Send notifications via SNS
+  - Perform Auto Scaling actions
+  - Execute EC2 actions (stop, terminate, reboot, recover)
+
+### Logs
+
+- **Log Groups**: Collections of log streams sharing the same retention and permissions
+- **Log Streams**: Sequences of log events from the same source
+- **Log Insights**: Query and analyze log data
+- **Subscription Filters**: Route log data to other services (Lambda, Kinesis)
+- **Metric Filters**: Extract metrics from log events
+- **On-Premises Usage**: Need to install CW Agent and set IAM credentials
+
+### Events
+
+- **CloudWatch Events/EventBridge**: Near real-time stream of system events
+- **Event Patterns**: Match events based on their content
+- **Scheduled Events**: Trigger actions on a schedule
+- **Targets**: Services that can receive events (Lambda, SNS, SQS, etc.)
+
+### <a name="cloudwatch-code-examples"></a>Code Examples
+
+**CloudWatch Operations with AWS SDK for JavaScript:**
+```javascript
+const AWS = require('aws-sdk');
+const cloudWatch = new AWS.CloudWatch({ region: 'us-east-1' });
+
+// Put custom metric data
+async function putMetricData(namespace, metricName, value, dimensions) {
+    const params = {
+        Namespace: namespace,
+        MetricData: [
+            {
+                MetricName: metricName,
+                Value: value,
+                Dimensions: dimensions.map(d => ({ Name: d.name, Value: d.value })),
+                Timestamp: new Date(),
+                Unit: 'Count' // Can be Count, Seconds, Microseconds, Milliseconds, Bytes, Kilobytes, etc.
+            }
+        ]
+    };
+    
+    try {
+        await cloudWatch.putMetricData(params).promise();
+        console.log(`Successfully published metric ${metricName} to ${namespace}`);
+        return true;
+    } catch (error) {
+        console.error('Error publishing metric data:', error);
+        return false;
+    }
+}
+
+// Create or update an alarm
+async function createAlarm(alarmName, metricName, namespace, threshold, comparisonOperator, dimensions) {
+    const params = {
+        AlarmName: alarmName,
+        MetricName: metricName,
+        Namespace: namespace,
+        Statistic: 'Average', // Can be SampleCount, Average, Sum, Minimum, Maximum
+        Dimensions: dimensions.map(d => ({ Name: d.name, Value: d.value })),
+        Period: 60, // Seconds
+        EvaluationPeriods: 1,
+        Threshold: threshold,
+        ComparisonOperator: comparisonOperator, // GreaterThanThreshold, GreaterThanOrEqualToThreshold, etc.
+        AlarmActions: [
+            'arn:aws:sns:us-east-1:123456789012:my-alarm-topic' // Replace with your SNS topic ARN
+        ]
+    };
+    
+    try {
+        await cloudWatch.putMetricAlarm(params).promise();
+        console.log(`Successfully created/updated alarm ${alarmName}`);
+        return true;
+    } catch (error) {
+        console.error('Error creating/updating alarm:', error);
+        return false;
+    }
+}
+
+// Get metric statistics
+async function getMetricStatistics(namespace, metricName, dimensions, startTime, endTime) {
+    const params = {
+        Namespace: namespace,
+        MetricName: metricName,
+        Dimensions: dimensions.map(d => ({ Name: d.name, Value: d.value })),
+        StartTime: startTime,
+        EndTime: endTime,
+        Period: 60, // Seconds
+        Statistics: ['Average', 'Maximum', 'Minimum', 'Sum', 'SampleCount']
+    };
+    
+    try {
+        const result = await cloudWatch.getMetricStatistics(params).promise();
+        return result.Datapoints;
+    } catch (error) {
+        console.error('Error getting metric statistics:', error);
+        return [];
+    }
+}
+```
+
+**CloudWatch Logs Operations with AWS SDK for JavaScript:**
+```javascript
+const AWS = require('aws-sdk');
+const cloudWatchLogs = new AWS.CloudWatchLogs({ region: 'us-east-1' });
+
+// Create a log group
+async function createLogGroup(logGroupName) {
+    const params = {
+        logGroupName: logGroupName
+    };
+    
+    try {
+        await cloudWatchLogs.createLogGroup(params).promise();
+        console.log(`Successfully created log group ${logGroupName}`);
+        return true;
+    } catch (error) {
+        if (error.code === 'ResourceAlreadyExistsException') {
+            console.log(`Log group ${logGroupName} already exists`);
+            return true;
+        }
+        console.error('Error creating log group:', error);
+        return false;
+    }
+}
+
+// Create a log stream
+async function createLogStream(logGroupName, logStreamName) {
+    const params = {
+        logGroupName: logGroupName,
+        logStreamName: logStreamName
+    };
+    
+    try {
+        await cloudWatchLogs.createLogStream(params).promise();
+        console.log(`Successfully created log stream ${logStreamName} in group ${logGroupName}`);
+        return true;
+    } catch (error) {
+        if (error.code === 'ResourceAlreadyExistsException') {
+            console.log(`Log stream ${logStreamName} already exists in group ${logGroupName}`);
+            return true;
+        }
+        console.error('Error creating log stream:', error);
+        return false;
+    }
+}
+
+// Put log events
+async function putLogEvents(logGroupName, logStreamName, logEvents) {
+    // Get the sequence token if the stream already has events
+    let sequenceToken;
+    try {
+        const streams = await cloudWatchLogs.describeLogStreams({
+            logGroupName: logGroupName,
+            logStreamNamePrefix: logStreamName
+        }).promise();
+        
+        if (streams.logStreams.length > 0 && streams.logStreams[0].uploadSequenceToken) {
+            sequenceToken = streams.logStreams[0].uploadSequenceToken;
+        }
+    } catch (error) {
+        console.error('Error getting sequence token:', error);
+    }
+    
+    // Format log events
+    const formattedEvents = logEvents.map(event => ({
+        message: typeof event === 'string' ? event : JSON.stringify(event),
+        timestamp: new Date().getTime()
+    }));
+    
+    // Put log events
+    const params = {
+        logGroupName: logGroupName,
+        logStreamName: logStreamName,
+        logEvents: formattedEvents,
+        ...(sequenceToken && { sequenceToken: sequenceToken })
+    };
+    
+    try {
+        const result = await cloudWatchLogs.putLogEvents(params).promise();
+        console.log(`Successfully put ${formattedEvents.length} log events`);
+        return result.nextSequenceToken;
+    } catch (error) {
+        console.error('Error putting log events:', error);
+        return null;
+    }
+}
+```
+
+**CloudWatch Operations with AWS SDK for Python:**
+```python
+import boto3
+import time
+from datetime import datetime, timedelta
+
+# Initialize CloudWatch client
+cloudwatch = boto3.client('cloudwatch', region_name='us-east-1')
+logs = boto3.client('logs', region_name='us-east-1')
+
+# Put custom metric data
+def put_metric_data(namespace, metric_name, value, dimensions):
+    try:
+        response = cloudwatch.put_metric_data(
+            Namespace=namespace,
+            MetricData=[
+                {
+                    'MetricName': metric_name,
+                    'Value': value,
+                    'Dimensions': [{'Name': d['name'], 'Value': d['value']} for d in dimensions],
+                    'Timestamp': datetime.now(),
+                    'Unit': 'Count'  # Can be Count, Seconds, Microseconds, Milliseconds, Bytes, Kilobytes, etc.
+                }
+            ]
+        )
+        print(f"Successfully published metric {metric_name} to {namespace}")
+        return True
+    except Exception as e:
+        print(f"Error publishing metric data: {e}")
+        return False
+
+# Create or update an alarm
+def create_alarm(alarm_name, metric_name, namespace, threshold, comparison_operator, dimensions):
+    try:
+        response = cloudwatch.put_metric_alarm(
+            AlarmName=alarm_name,
+            MetricName=metric_name,
+            Namespace=namespace,
+            Statistic='Average',  # Can be SampleCount, Average, Sum, Minimum, Maximum
+            Dimensions=[{'Name': d['name'], 'Value': d['value']} for d in dimensions],
+            Period=60,  # Seconds
+            EvaluationPeriods=1,
+            Threshold=threshold,
+            ComparisonOperator=comparison_operator,  # GreaterThanThreshold, GreaterThanOrEqualToThreshold, etc.
+            AlarmActions=[
+                'arn:aws:sns:us-east-1:123456789012:my-alarm-topic'  # Replace with your SNS topic ARN
+            ]
+        )
+        print(f"Successfully created/updated alarm {alarm_name}")
+        return True
+    except Exception as e:
+        print(f"Error creating/updating alarm: {e}")
+        return False
+
+# Get metric statistics
+def get_metric_statistics(namespace, metric_name, dimensions, start_time, end_time):
+    try:
+        response = cloudwatch.get_metric_statistics(
+            Namespace=namespace,
+            MetricName=metric_name,
+            Dimensions=[{'Name': d['name'], 'Value': d['value']} for d in dimensions],
+            StartTime=start_time,
+            EndTime=end_time,
+            Period=60,  # Seconds
+            Statistics=['Average', 'Maximum', 'Minimum', 'Sum', 'SampleCount']
+        )
+        return response['Datapoints']
+    except Exception as e:
+        print(f"Error getting metric statistics: {e}")
+        return []
+
+# Create a log group
+def create_log_group(log_group_name):
+    try:
+        logs.create_log_group(logGroupName=log_group_name)
+        print(f"Successfully created log group {log_group_name}")
+        return True
+    except logs.exceptions.ResourceAlreadyExistsException:
+        print(f"Log group {log_group_name} already exists")
+        return True
+    except Exception as e:
+        print(f"Error creating log group: {e}")
+        return False
+
+# Create a log stream
+def create_log_stream(log_group_name, log_stream_name):
+    try:
+        logs.create_log_stream(
+            logGroupName=log_group_name,
+            logStreamName=log_stream_name
+        )
+        print(f"Successfully created log stream {log_stream_name} in group {log_group_name}")
+        return True
+    except logs.exceptions.ResourceAlreadyExistsException:
+        print(f"Log stream {log_stream_name} already exists in group {log_group_name}")
+        return True
+    except Exception as e:
+        print(f"Error creating log stream: {e}")
+        return False
+
+# Put log events
+def put_log_events(log_group_name, log_stream_name, log_events):
+    # Get the sequence token if the stream already has events
+    sequence_token = None
+    try:
+        streams = logs.describe_log_streams(
+            logGroupName=log_group_name,
+            logStreamNamePrefix=log_stream_name
+        )
+        
+        if streams['logStreams'] and 'uploadSequenceToken' in streams['logStreams'][0]:
+            sequence_token = streams['logStreams'][0]['uploadSequenceToken']
+    except Exception as e:
+        print(f"Error getting sequence token: {e}")
+    
+    # Format log events
+    formatted_events = []
+    for event in log_events:
+        if isinstance(event, str):
+            message = event
+        else:
+            import json
+            message = json.dumps(event)
+        
+        formatted_events.append({
+            'message': message,
+            'timestamp': int(time.time() * 1000)
+        })
+    
+    # Put log events
+    params = {
+        'logGroupName': log_group_name,
+        'logStreamName': log_stream_name,
+        'logEvents': formatted_events
+    }
+    
+    if sequence_token:
+        params['sequenceToken'] = sequence_token
+    
+    try:
+        response = logs.put_log_events(**params)
+        print(f"Successfully put {len(formatted_events)} log events")
+        return response.get('nextSequenceToken')
+    except Exception as e:
+        print(f"Error putting log events: {e}")
+        return None
+```
 
 ---
 
