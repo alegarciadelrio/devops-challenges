@@ -200,8 +200,8 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 
 ### Indexes
 
-- **Local Secondary Index (LSI)**: Same partition key as table but different sort key
-- **Global Secondary Index (GSI)**: Different partition key and optional sort key. Contains a set of attributes from the base table, but organized by a different primary key than the table.
+- **Local Secondary Index (LSI)**: Same partition key as table but different sort key. Consume capacity units from the base table since they share the same partition key. 
+- **Global Secondary Index (GSI)**: Different partition key and optional sort key. Contains a set of attributes from the base table, but organized by a different primary key than the table. Need provision read and write capacity units.
 - **Sparse Indexes**: Only contain items that have the indexed attribute
 
 ### <a name="dynamodb-code-examples"></a>Code Examples
