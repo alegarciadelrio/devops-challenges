@@ -66,6 +66,7 @@ User Pools are user directories that provide:
 - **Integration with API Gateway & Application Load Balancer**
 - Support for social identity providers like Facebook, Google, and Amazon
 - Support for enterprise identity providers via SAML and OpenID Connect
+- Provides hosted web ui
 
 ### Identity Pools
 
@@ -97,6 +98,7 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 - **Pay-per-use**: Only pay for the compute time consumed
 - **Automatic scaling**: Scales automatically with the size of the workload
 - **Integrated security**: Integrated with IAM for secure access control
+- **Integrated loging**: Lambda automatically integrates with CloudWatch Logs (Needs proper role)
 - **AWS SDK**: This provides the ability to programmatically work with AWS Services, like CodeCommit
 
 ### Execution Model
