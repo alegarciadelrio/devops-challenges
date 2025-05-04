@@ -206,6 +206,10 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 - **Global Secondary Index (GSI)**: Different partition key and optional sort key. Contains a set of attributes from the base table, but organized by a different primary key than the table. Need provision read and write capacity units.
 - **Sparse Indexes**: Only contain items that have the indexed attribute
 
+### Operations
+
+- **BatchGetItem**: Permits the retrieval of multiple items from one or more tables in a single operation
+
 ### <a name="dynamodb-code-examples"></a>Code Examples
 
 **DynamoDB Operations with AWS SDK for JavaScript:**
