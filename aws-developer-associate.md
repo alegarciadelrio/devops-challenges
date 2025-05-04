@@ -114,6 +114,10 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 - **Provisioned Concurrency**: Pre-initialized execution environments
 - **Account Concurrency Limit**: Default 1,000 concurrent executions per region
 
+### Integration
+
+- **Event source mapping**: AWS Lambda resource that reads from an event source and invokes a Lambda function. Services supported Amazon Kinesis, Amazon DynamoDB and Amazon Simple Queue Service
+
 ### Lambda@Edge
 
 - **Lambda@Edge**: functions can only be created in the us-east-1.
