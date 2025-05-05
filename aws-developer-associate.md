@@ -37,6 +37,8 @@
   - [Key Policies](#key-policies)
   - [Integration with AWS Services](#kms-integration)
   - [Code Examples](#kms-code-examples)
+- [Amazon EBS](#ebs)
+  - [Encryption](#encryption)
 - [AWS API Gateway](#aws-api-gateway)
   - [Endpoint Types](#endpoint-types)
   - [Integration Types](#integration-types)
@@ -123,10 +125,12 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 ### Integration
 
 - **Event source mapping**: AWS Lambda resource that reads from an event source and invokes a Lambda function. Services supported Amazon Kinesis, Amazon DynamoDB and Amazon Simple Queue Service.
-
-### Lambda@Edge
-
 - **Lambda@Edge**: functions can only be created in the us-east-1.
+
+### Troubleshooting
+
+- **Maximum execution**: 900 seconds
+
 
 ### <a name="lambda-code-examples"></a>Code Examples
 
@@ -632,7 +636,7 @@ AWS Key Management Service (KMS) is a managed service that makes it easy for you
 
 ---
 
-## EBS
+## <a name="ebs"></a>EBS
 
 Amazon EBS is permanent, mountable storage solution for Amazon EC2 instances.
 
