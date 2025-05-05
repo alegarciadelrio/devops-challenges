@@ -399,7 +399,7 @@ Amazon Simple Queue Service (SQS) is a fully managed message queuing service tha
 
 - **Long Polling vs Short Polling**:
   - **Short Polling**: Returns immediately, even if queue is empty
-  - **Long Polling**: Waits for messages to arrive (up to 20 seconds), reducing empty responses and API calls
+  - **Long Polling**: Waits for messages to arrive (up to 20 seconds), reducing empty responses and API calls. ReceiveMessageWaitTimeSeconds attribute to 20 seconds.
 
 ### Visibility Timeout
 
