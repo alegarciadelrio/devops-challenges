@@ -674,6 +674,9 @@ Amazon API Gateway is a fully managed service that makes it easy for developers 
 - **API Keys**: Identify and authorize API clients
 - **Resource Policies**: Control who can invoke the API
 
+### Troubleshooting
+
+- **Cache**: The client must send a request that contains the Cache-Control: max-age=0 header.
 ---
 
 ## Elastic Beanstalk
