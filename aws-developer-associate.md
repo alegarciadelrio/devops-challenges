@@ -108,6 +108,7 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 - **Integrated security**: Integrated with IAM for secure access control
 - **Integrated loging**: Lambda automatically integrates with CloudWatch Logs (Needs proper role)
 - **AWS SDK**: This provides the ability to programmatically work with AWS Services, like CodeCommit
+- **Alias**: Permits traffic shifting to assign a percentage of traffic to the new version
 
 ### Execution Model
 
@@ -223,6 +224,18 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 ### Operations
 
 - **BatchGetItem**: Permits the retrieval of multiple items from one or more tables in a single operation
+
+### Provisioned Capacity
+
+- **RCU**:
+    - 1 RCU per 2 eventually consistent read up to 4KB.
+    - 1 RCU per strongly consistent read up to 4KB.
+    - 2 RCU per transactional read request up to 4KB.
+
+- **WCU**: 
+    - 1 WCU per standard write request up to 1KB/second.
+    - 2 WCU per transactional write request up to 1KB/second.
+
 
 ### <a name="dynamodb-code-examples"></a>Code Examples
 
