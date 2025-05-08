@@ -83,6 +83,7 @@ Identity Pools (Federated Identities) provide:
 - Temporary AWS credentials with configurable permissions
 - Support for anonymous guest access
 - Seamless integration with User Pools
+- With developer authenticated identities, you can register and authenticate users via your own existing authentication process
 
 ### Cognito vs IAM
 
