@@ -710,6 +710,10 @@ AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web ap
 - **Web Server Environment**: For traditional web applications
 - **Worker Environment**: For background processing tasks
 
+### Troubleshooting
+
+- **.ebextensions**: Place yaml and json files with .config extension for the EB configuration.
+
 ---
 
 ## AWS CloudFormation
