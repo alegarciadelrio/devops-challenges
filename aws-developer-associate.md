@@ -116,7 +116,7 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 - **Cold Start**: First invocation or after a period of inactivity
 - **Warm Start**: Subsequent invocations reuse the container
 - **Execution Context**: Environment where your function runs. The context object in a Lambda function provides metadata about the function and the current invocation, included context.awsRequestId.
-- **Handler Function**: Entry point for Lambda execution. Initialize SDK clients and database connections outside of the function handler,  take advantage of execution environment reuse.
+- **Handler Function**: Entry point for Lambda execution. Initialize SDK clients and database connections outside of the function handler, take advantage of execution environment reuse.
 
 ### Concurrency
 
@@ -126,6 +126,7 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 
 ### Integration
 
+- **Encryption helpers**: Environment variables to store secrets securely for use with Lambda functions. Lambda always encrypts environment variables at rest.
 - **Event source mapping**: AWS Lambda resource that reads from an event source and invokes a Lambda function. Services supported Amazon Kinesis, Amazon DynamoDB and Amazon Simple Queue Service.
 - **Lambda@Edge**: functions can only be created in the us-east-1.
 
