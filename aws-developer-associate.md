@@ -698,6 +698,7 @@ Amazon API Gateway is a fully managed service that makes it easy for developers 
 ### Troubleshooting
 
 - **Cache**: The client must send a request that contains the Cache-Control: max-age=0 header.
+- **$connect and $disconnect**: these routes capture events when a user connects and disconnects from the WebSocket API.
 ---
 
 ## Elastic Beanstalk
