@@ -49,6 +49,12 @@
 - [AWS CloudFormation](#aws-cloudformation)
   - [Template Structure](#template-structure)
   - [Intrinsic Functions](#intrinsic-functions)
+- [AWS CodeDeploy](#aws-codedeploy)
+  - [Deployment Types](#deployment-types)
+  - [Lambda Deployment Hooks](#lambda-deployment-hooks)
+  - [ECS Deployment Hooks](#ecs-deployment-hooks)
+  - [EKS Deployment Hooks](#eks-deployment-hooks)
+  - [Code Examples](#codedeploy-code-examples)
 - [AWS X-Ray](#aws-x-ray)
   - [Key Concepts](#x-ray-key-concepts)
   - [Instrumentation](#instrumentation)
@@ -740,6 +746,221 @@ AWS CloudFormation provides a common language to describe and provision all the 
 - **Fn::Sub**: Substitutes variables in an input string
 - **Ref**: Returns the value of the specified parameter or resource
 - **Fn::ImportValue**: Returns the value of an output exported by another stack
+
+---
+
+## AWS CodeDeploy
+
+AWS CodeDeploy is a fully managed deployment service that automates software deployments to various compute services such as Amazon EC2, AWS Lambda, Amazon ECS, and Kubernetes.
+
+### Deployment Types
+
+- **In-place Deployment**: The application on each instance in the deployment group is stopped, the latest application revision is installed, and the new version of the application is started and validated.
+- **Blue/Green Deployment**: Instances are provisioned for the replacement environment, and the latest application revision is installed. Traffic is then rerouted to the replacement instances, and the original instances can be terminated.
+
+### Lambda Deployment Hooks
+
+Lambda deployments use a specific set of lifecycle hooks that execute in a defined order:
+
+1. **BeforeAllowTraffic**: Runs before traffic is shifted to the deployed Lambda function version.
+2. **AllowTraffic**: CodeDeploy shifts traffic to the new Lambda function version.
+3. **AfterAllowTraffic**: Runs after all traffic is shifted to the deployed Lambda function version.
+
+**Lambda Deployment Hook Order:**
+
+```
+Start
+  |
+  v
+BeforeAllowTraffic
+  |
+  v
+AllowTraffic
+  |
+  v
+AfterAllowTraffic
+  |
+  v
+End
+```
+
+**Traffic Shifting Configurations for Lambda:**
+
+- **Canary**: Traffic is shifted in two increments. You can specify the percentage of traffic shifted to the updated Lambda function version in the first increment and the interval, in minutes, before the remaining traffic is shifted.
+- **Linear**: Traffic is shifted in equal increments with an equal number of minutes between each increment.
+- **All-at-once**: All traffic is shifted from the original Lambda function to the updated Lambda function version at once.
+
+### ECS Deployment Hooks
+
+ECS deployments with CodeDeploy use the following lifecycle hooks in this order:
+
+1. **BeforeInstall**: Runs before the replacement task set is created.
+2. **Install**: CodeDeploy creates the replacement task set.
+3. **AfterInstall**: Runs after the replacement task set is created and one of the target groups is associated with it.
+4. **BeforeAllowTraffic**: Runs before traffic is rerouted to the replacement task set.
+5. **AllowTraffic**: CodeDeploy reroutes traffic to the replacement task set.
+6. **AfterAllowTraffic**: Runs after traffic is rerouted to the replacement task set.
+
+**ECS Deployment Hook Order:**
+
+```
+Start
+  |
+  v
+BeforeInstall
+  |
+  v
+Install
+  |
+  v
+AfterInstall
+  |
+  v
+BeforeAllowTraffic
+  |
+  v
+AllowTraffic
+  |
+  v
+AfterAllowTraffic
+  |
+  v
+End
+```
+
+**Traffic Shifting Configurations for ECS:**
+
+- **Canary**: Traffic is shifted in two increments.
+- **Linear**: Traffic is shifted in equal increments with equal time intervals.
+- **All-at-once**: All traffic is shifted at once.
+
+### EKS Deployment Hooks
+
+For EKS deployments, CodeDeploy uses the following lifecycle hooks in this order:
+
+1. **BeforeInstall**: Runs before Kubernetes applies the deployment YAML.
+2. **Install**: CodeDeploy applies the Kubernetes deployment YAML.
+3. **AfterInstall**: Runs after the Kubernetes deployment is created but before any traffic shifting.
+4. **BeforeAllowTraffic**: Runs before traffic is shifted to the new Kubernetes deployment.
+5. **AllowTraffic**: CodeDeploy begins shifting traffic according to the deployment configuration.
+6. **AfterAllowTraffic**: Runs after all traffic has been shifted to the new Kubernetes deployment.
+
+**EKS Deployment Hook Order:**
+
+```
+Start
+  |
+  v
+BeforeInstall
+  |
+  v
+Install
+  |
+  v
+AfterInstall
+  |
+  v
+BeforeAllowTraffic
+  |
+  v
+AllowTraffic
+  |
+  v
+AfterAllowTraffic
+  |
+  v
+End
+```
+
+### <a name="codedeploy-code-examples"></a>Code Examples
+
+**AppSpec File for Lambda Deployment:**
+```yaml
+version: 0.0
+Resources:
+  - myLambdaFunction:
+      Type: AWS::Lambda::Function
+      Properties:
+        Name: myLambdaFunction
+        Alias: myLambdaFunctionAlias
+        CurrentVersion: 1
+        TargetVersion: 2
+Hooks:
+  BeforeAllowTraffic: !Ref BeforeAllowTrafficHookFunctionArn
+  AfterAllowTraffic: !Ref AfterAllowTrafficHookFunctionArn
+```
+
+**AppSpec File for ECS Deployment:**
+```yaml
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION>
+        LoadBalancerInfo:
+          ContainerName: "sample-app"
+          ContainerPort: 80
+        PlatformVersion: "LATEST"
+Hooks:
+  - BeforeInstall: "LambdaFunctionToValidateBeforeInstall"
+  - AfterInstall: "LambdaFunctionToValidateAfterInstall"
+  - AfterAllowTraffic: "LambdaFunctionToValidateAfterAllowTraffic"
+```
+
+**AppSpec File for EKS Deployment:**
+```yaml
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::EKS::Service
+      Properties:
+        Name: my-deployment
+        Namespace: default
+Hooks:
+  - BeforeInstall: "LambdaFunctionToValidateBeforeInstall"
+  - AfterInstall: "LambdaFunctionToValidateAfterInstall"
+  - BeforeAllowTraffic: "LambdaFunctionToValidateBeforeAllowTraffic"
+  - AfterAllowTraffic: "LambdaFunctionToValidateAfterAllowTraffic"
+```
+
+**Lambda Hook Function Example (Node.js):**
+```javascript
+exports.handler = async (event) => {
+    console.log("Deployment Lifecycle Hook Event:", JSON.stringify(event, null, 2));
+    
+    // Get deployment information
+    const deploymentId = event.DeploymentId;
+    const lifecycleEventHookExecutionId = event.LifecycleEventHookExecutionId;
+    
+    try {
+        // Perform validation or deployment tasks here
+        console.log("Validation successful");
+        
+        // Signal success to CodeDeploy
+        const codedeploy = new AWS.CodeDeploy();
+        await codedeploy.putLifecycleEventHookExecutionStatus({
+            deploymentId: deploymentId,
+            lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
+            status: 'Succeeded'
+        }).promise();
+        
+        return { statusCode: 200, body: 'Hook execution succeeded' };
+    } catch (error) {
+        console.error("Error during validation:", error);
+        
+        // Signal failure to CodeDeploy
+        const codedeploy = new AWS.CodeDeploy();
+        await codedeploy.putLifecycleEventHookExecutionStatus({
+            deploymentId: deploymentId,
+            lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
+            status: 'Failed'
+        }).promise();
+        
+        return { statusCode: 500, body: 'Hook execution failed' };
+    }
+};
+```
 
 ---
 
