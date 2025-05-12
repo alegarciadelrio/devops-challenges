@@ -51,6 +51,7 @@
   - [Intrinsic Functions](#intrinsic-functions)
 - [AWS CodeDeploy](#aws-codedeploy)
   - [Deployment Types](#deployment-types)
+  - [EC2 Deployment Hooks](#ec2-deployment-hooks)
   - [Lambda Deployment Hooks](#lambda-deployment-hooks)
   - [ECS Deployment Hooks](#ecs-deployment-hooks)
   - [EKS Deployment Hooks](#eks-deployment-hooks)
@@ -764,6 +765,49 @@ AWS CodeDeploy is a fully managed deployment service that automates software dep
 - **In-place Deployment**: The application on each instance in the deployment group is stopped, the latest application revision is installed, and the new version of the application is started and validated.
 - **Blue/Green Deployment**: Instances are provisioned for the replacement environment, and the latest application revision is installed. Traffic is then rerouted to the replacement instances, and the original instances can be terminated.
 
+### EC2 Deployment Hooks
+
+EC2 deployments with CodeDeploy use the following lifecycle hooks in this order:
+
+1. **ApplicationStop**: Stops any running application to prepare for deployment.
+2. **DownloadBundle**: CodeDeploy agent copies the application revision files to a temporary location.
+3. **BeforeInstall**: Pre-installation scripts or tasks (e.g., backing up current version, decrypting files).
+4. **Install**: Copies application revision files to final location.
+5. **AfterInstall**: Post-installation tasks (e.g., configuration, permissions changes).
+6. **ApplicationStart**: Starts the deployed application.
+7. **ValidateService**: Tests and validates that the application is working correctly.
+
+
+**AppSpec File for EC2 Deployment:**
+```yaml
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_application.sh
+      timeout: 300
+      runas: root
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_application.sh
+      timeout: 300
+      runas: root
+  ValidateService:
+    - location: scripts/validate_service.sh
+      timeout: 300
+      runas: root
+```
+
 ### Lambda Deployment Hooks
 
 Lambda deployments use a specific set of lifecycle hooks that execute in a defined order:
@@ -772,23 +816,6 @@ Lambda deployments use a specific set of lifecycle hooks that execute in a defin
 2. **AllowTraffic**: CodeDeploy shifts traffic to the new Lambda function version.
 3. **AfterAllowTraffic**: Runs after all traffic is shifted to the deployed Lambda function version.
 
-**Lambda Deployment Hook Order:**
-
-```
-Start
-  |
-  v
-BeforeAllowTraffic
-  |
-  v
-AllowTraffic
-  |
-  v
-AfterAllowTraffic
-  |
-  v
-End
-```
 
 **Traffic Shifting Configurations for Lambda:**
 
@@ -807,32 +834,6 @@ ECS deployments with CodeDeploy use the following lifecycle hooks in this order:
 5. **AllowTraffic**: CodeDeploy reroutes traffic to the replacement task set.
 6. **AfterAllowTraffic**: Runs after traffic is rerouted to the replacement task set.
 
-**ECS Deployment Hook Order:**
-
-```
-Start
-  |
-  v
-BeforeInstall
-  |
-  v
-Install
-  |
-  v
-AfterInstall
-  |
-  v
-BeforeAllowTraffic
-  |
-  v
-AllowTraffic
-  |
-  v
-AfterAllowTraffic
-  |
-  v
-End
-```
 
 **Traffic Shifting Configurations for ECS:**
 
@@ -851,32 +852,6 @@ For EKS deployments, CodeDeploy uses the following lifecycle hooks in this order
 5. **AllowTraffic**: CodeDeploy begins shifting traffic according to the deployment configuration.
 6. **AfterAllowTraffic**: Runs after all traffic has been shifted to the new Kubernetes deployment.
 
-**EKS Deployment Hook Order:**
-
-```
-Start
-  |
-  v
-BeforeInstall
-  |
-  v
-Install
-  |
-  v
-AfterInstall
-  |
-  v
-BeforeAllowTraffic
-  |
-  v
-AllowTraffic
-  |
-  v
-AfterAllowTraffic
-  |
-  v
-End
-```
 
 ### <a name="codedeploy-code-examples"></a>Code Examples
 
@@ -930,44 +905,6 @@ Hooks:
   - AfterAllowTraffic: "LambdaFunctionToValidateAfterAllowTraffic"
 ```
 
-**Lambda Hook Function Example (Node.js):**
-```javascript
-exports.handler = async (event) => {
-    console.log("Deployment Lifecycle Hook Event:", JSON.stringify(event, null, 2));
-    
-    // Get deployment information
-    const deploymentId = event.DeploymentId;
-    const lifecycleEventHookExecutionId = event.LifecycleEventHookExecutionId;
-    
-    try {
-        // Perform validation or deployment tasks here
-        console.log("Validation successful");
-        
-        // Signal success to CodeDeploy
-        const codedeploy = new AWS.CodeDeploy();
-        await codedeploy.putLifecycleEventHookExecutionStatus({
-            deploymentId: deploymentId,
-            lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
-            status: 'Succeeded'
-        }).promise();
-        
-        return { statusCode: 200, body: 'Hook execution succeeded' };
-    } catch (error) {
-        console.error("Error during validation:", error);
-        
-        // Signal failure to CodeDeploy
-        const codedeploy = new AWS.CodeDeploy();
-        await codedeploy.putLifecycleEventHookExecutionStatus({
-            deploymentId: deploymentId,
-            lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
-            status: 'Failed'
-        }).promise();
-        
-        return { statusCode: 500, body: 'Hook execution failed' };
-    }
-};
-```
-
 ---
 
 ## AWS X-Ray
@@ -981,7 +918,7 @@ AWS X-Ray helps developers analyze and debug distributed applications, providing
 - **Traces**: Collection of segments generated by a single request
 - **Service Graph**: JSON representation of services and connections
 - **Sampling**: Control the amount of data recorded
-- **Annotations and metadata**: You can add annotations and metadata to the segments that the X-Ray SDK creates, or to custom subsegments that you create
+- **Annotations and metadata**: You can add annotations and metadata to the segments that the X-Ray SDK creates, or to custom subsegments that you create (Metadata not indexed)
 
 ### Instrumentation
 
