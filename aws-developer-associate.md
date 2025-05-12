@@ -140,7 +140,6 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 
 - **Maximum execution**: 900 seconds
 
-
 ### <a name="lambda-code-examples"></a>Code Examples
 
 **Node.js Lambda Function:**
@@ -439,6 +438,10 @@ Amazon Simple Queue Service (SQS) is a fully managed message queuing service tha
   - Analyzing failed message patterns
   - Implementing custom retry logic
 - Configure with `RedrivePolicy` that specifies `maxReceiveCount`
+
+### Operations
+
+- **VPC endpoint**: Communicate without traversing the public Internet
 
 ### <a name="sqs-code-examples"></a>Code Examples
 
