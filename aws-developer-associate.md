@@ -232,6 +232,8 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 ### Operations
 
 - **BatchGetItem**: Permits the retrieval of multiple items from one or more tables in a single operation
+- **Parallel Scan API**: Scan is distributed across your table’s partitions
+- **Limit parameter**: To control the amount of data returned per request, prevent throttsling.
 
 ### Provisioned Capacity
 
