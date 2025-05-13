@@ -777,37 +777,6 @@ EC2 deployments with CodeDeploy use the following lifecycle hooks in this order:
 6. **ApplicationStart**: Starts the deployed application.
 7. **ValidateService**: Tests and validates that the application is working correctly.
 
-
-**AppSpec File for EC2 Deployment:**
-```yaml
-version: 0.0
-os: linux
-files:
-  - source: /
-    destination: /var/www/html/
-hooks:
-  ApplicationStop:
-    - location: scripts/stop_application.sh
-      timeout: 300
-      runas: root
-  BeforeInstall:
-    - location: scripts/before_install.sh
-      timeout: 300
-      runas: root
-  AfterInstall:
-    - location: scripts/after_install.sh
-      timeout: 300
-      runas: root
-  ApplicationStart:
-    - location: scripts/start_application.sh
-      timeout: 300
-      runas: root
-  ValidateService:
-    - location: scripts/validate_service.sh
-      timeout: 300
-      runas: root
-```
-
 ### Lambda Deployment Hooks
 
 Lambda deployments use a specific set of lifecycle hooks that execute in a defined order:
@@ -854,6 +823,36 @@ For EKS deployments, CodeDeploy uses the following lifecycle hooks in this order
 
 
 ### <a name="codedeploy-code-examples"></a>Code Examples
+
+**AppSpec File for EC2 Deployment:**
+```yaml
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_application.sh
+      timeout: 300
+      runas: root
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_application.sh
+      timeout: 300
+      runas: root
+  ValidateService:
+    - location: scripts/validate_service.sh
+      timeout: 300
+      runas: root
+```
 
 **AppSpec File for Lambda Deployment:**
 ```yaml
