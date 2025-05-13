@@ -43,6 +43,9 @@
   - [Endpoint Types](#endpoint-types)
   - [Integration Types](#integration-types)
   - [Security](#api-gateway-security)
+- [Elastic Load Balancing (ELB)](#elastic-load-balancing-elb)
+  - [ELB Types](#elb-types)
+  - [Key Features](#elb-key-features)
 - [Elastic Beanstalk](#elastic-beanstalk)
   - [Deployment Options](#deployment-options)
   - [Environment Types](#environment-types)
@@ -448,6 +451,7 @@ Amazon Simple Queue Service (SQS) is a fully managed message queuing service tha
 
 - **VPC endpoint**: Communicate without traversing the public Internet
 - **Max message size**: Only supports messages up to 256KB in size
+- **Deduplication**: FIFO queue and configure the Lambda function to add a message deduplication token to the message body
 
 ### <a name="sqs-code-examples"></a>Code Examples
 
@@ -710,6 +714,57 @@ Amazon API Gateway is a fully managed service that makes it easy for developers 
 
 - **Cache**: The client must send a request that contains the Cache-Control: max-age=0 header.
 - **$connect and $disconnect**: these routes capture events when a user connects and disconnects from the WebSocket API.
+---
+
+## <a name="elastic-load-balancing"></a>Elastic Load Balancing (ELB)
+
+Elastic Load Balancing automatically distributes incoming application traffic across multiple targets, such as EC2 instances, containers, and IP addresses.
+
+### <a name="elb-types"></a>ELB Types
+
+- **Application Load Balancer (ALB)**:
+  - **Layer 7** (HTTP/HTTPS) load balancer
+  - **Path-based routing**: Routes based on URL path
+  - **Host-based routing**: Routes based on host header
+  - **Support for WebSockets** and HTTP/2
+  - **Target groups**: EC2 instances, ECS tasks, Lambda functions, IP addresses
+  - **Health checks**: Application-level health monitoring
+  - **Security**: Integrates with AWS WAF and AWS Shield
+
+- **Network Load Balancer (NLB)**:
+  - **Layer 4** (TCP/UDP/TLS) load balancer
+  - **Ultra-high performance**: Millions of requests per second
+  - **Low latency**: ~100ms (vs ~400ms for ALB)
+  - **Static IP addresses**: One per AZ, supports Elastic IPs
+  - **Preserve client IP**: Client IP is preserved
+  - **Target groups**: EC2 instances, IP addresses, ALB
+  - **Health checks**: TCP, HTTP/HTTPS health checks
+
+- **Gateway Load Balancer (GWLB)**:
+  - **Layer 3/4** (IP packets) load balancer
+  - **For third-party virtual appliances**: Firewalls, IDS/IPS, deep packet inspection
+  - **Uses GENEVE protocol** (port 6081)
+  - **Transparent network gateway**: Single entry/exit for traffic
+  - **Load balancer**: Distributes traffic to virtual appliances
+  - **Target groups**: EC2 instances, IP addresses
+
+- **Classic Load Balancer (CLB)** - *Previous generation*:
+  - **Layer 4/7** load balancer
+  - **Basic load balancing** for HTTP/HTTPS/TCP
+  - **Limited features**: No advanced routing, no target groups, host or path-based routing
+  - **Legacy support**: For EC2-Classic network
+
+### <a name="elb-key-features"></a>Key Features
+
+- **Cross-Zone Load Balancing**: Distributes traffic evenly across all registered targets in all AZs
+- **Sticky Sessions**: Routes requests from the same client to the same target
+- **Connection Draining**: Allows in-flight requests to complete before deregistering targets
+- **Health Checks**: Monitors the health of registered targets
+- **SSL/TLS Termination**: Decrypts HTTPS traffic before sending to targets
+- **SNI (Server Name Indication)**: Supports multiple TLS certificates on a single listener
+- **Access Logs**: Detailed information about requests (stored in S3)
+- **Integration**: Works with Auto Scaling, CloudWatch, AWS Certificate Manager
+
 ---
 
 ## Elastic Beanstalk
