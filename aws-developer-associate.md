@@ -443,6 +443,7 @@ Amazon Simple Queue Service (SQS) is a fully managed message queuing service tha
 ### Operations
 
 - **VPC endpoint**: Communicate without traversing the public Internet
+- **Max message size**: Only supports messages up to 256KB in size
 
 ### <a name="sqs-code-examples"></a>Code Examples
 
