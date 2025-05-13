@@ -69,6 +69,10 @@
   - [Events](#events)
   - [Code Examples](#cloudwatch-code-examples)
 - [Exam Preparation Tips](#exam-preparation-tips)
+- [AWS Step Functions](#aws-step-functions)
+  - [State Types](#state-types)
+  - [Execution Models](#execution-models)
+  - [Error Handling](#step-functions-error-handling)
 - [Additional Resources](#additional-resources)
 
 ---
@@ -1371,6 +1375,36 @@ def put_log_events(log_group_name, log_stream_name, log_events):
    - Identify knowledge gaps
    - Practice time management
    - Get comfortable with question formats
+
+---
+## AWS Step Functions
+
+AWS Step Functions is a serverless orchestration service that lets you combine AWS Lambda functions and other AWS services to build business-critical applications.
+
+### State Types
+
+- **Task**: Perform work using Lambda functions or AWS services
+- **Choice**: Add branching logic based on input
+- **Parallel**: Execute branches simultaneously
+- **Map**: Process items in an array in parallel
+- **Wait**: Pause execution for a specified time
+- **Succeed/Fail**: Stop execution with success or failure
+- **Pass**: Pass input to output or inject fixed data
+
+### Execution Models
+
+- **Standard Workflow**: Long-running, exactly-once execution, up to 1 year
+- **Express Workflow**: Short-lived, at-least-once execution, up to 5 minutes
+  - **Synchronous**: Wait for workflow to complete
+  - **Asynchronous**: Don't wait for completion
+
+### Step Functions Error Handling
+
+- **Retry**: Automatic retry with exponential backoff
+- **Catch**: Define fallback states when errors occur
+- **States.ALL**: Catch all errors
+- **States.Timeout**: Catch execution timeouts
+- **Service Integration Patterns**: AWS SDK, optimized, and HTTP task integrations
 
 ---
 
