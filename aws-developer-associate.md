@@ -101,6 +101,10 @@ Identity Pools (Federated Identities) provide:
 | Scale | Designed for millions of users | Better for smaller number of users |
 | Management | Self-service user management | Admin-controlled |
 
+### Operations
+
+- **Cognito Sync**: Synchronize user profile data across mobile devices and the web without requiring your own backend
+
 ---
 
 ## AWS Lambda
