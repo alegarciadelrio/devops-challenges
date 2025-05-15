@@ -10,16 +10,21 @@
   - [User Pools](#user-pools)
   - [Identity Pools](#identity-pools)
   - [Cognito vs IAM](#cognito-vs-iam)
+  - [Operations](#cognito-operations)
 - [AWS Lambda](#aws-lambda)
   - [Key Features](#key-features)
   - [Execution Model](#execution-model)
   - [Concurrency](#concurrency)
+  - [Integration](#lambda-integration)
+  - [Troubleshooting](#lambda-troubleshooting)
   - [Code Examples](#lambda-code-examples)
 - [Amazon DynamoDB](#amazon-dynamodb)
   - [Key Concepts](#key-concepts)
   - [Capacity Modes](#capacity-modes)
   - [Indexes](#indexes)
-  - [Code Examples](#dynamodb-code-examples)
+  - [Operations](#dynamodb-operations)
+  - [Security](#dynamodb-security)
+  - [Provisioned Capacity](#provisioned-capacity)
 - [Amazon S3](#amazon-s3)
   - [Storage Classes](#storage-classes)
   - [Security](#security)
@@ -30,12 +35,14 @@
   - [Message Processing](#message-processing)
   - [Visibility Timeout](#visibility-timeout)
   - [Dead-Letter Queues](#dead-letter-queues)
+  - [Operations](#sqs-operations)
   - [Code Examples](#sqs-code-examples)
 - [AWS KMS](#aws-kms)
   - [Key Concepts](#kms-key-concepts)
   - [Key Types](#key-types)
   - [Key Policies](#key-policies)
   - [Integration with AWS Services](#kms-integration)
+  - [Troubleshooting](#kms-troubleshooting)
   - [Code Examples](#kms-code-examples)
 - [Amazon EBS](#ebs)
   - [Encryption](#encryption)
@@ -43,12 +50,14 @@
   - [Endpoint Types](#endpoint-types)
   - [Integration Types](#integration-types)
   - [Security](#api-gateway-security)
+  - [Troubleshooting](#api-gateway-troubleshooting)
 - [Elastic Load Balancing (ELB)](#elastic-load-balancing-elb)
   - [ELB Types](#elb-types)
   - [Key Features](#elb-key-features)
 - [Elastic Beanstalk](#elastic-beanstalk)
   - [Deployment Options](#deployment-options)
   - [Environment Types](#environment-types)
+  - [Troubleshooting](#elastic-beanstalk-troubleshooting)
 - [AWS CloudFormation](#aws-cloudformation)
   - [Template Structure](#template-structure)
   - [Intrinsic Functions](#intrinsic-functions)
@@ -108,7 +117,7 @@ Identity Pools (Federated Identities) provide:
 | Scale | Designed for millions of users | Better for smaller number of users |
 | Management | Self-service user management | Admin-controlled |
 
-### Operations
+### <a name="cognito-operations"></a>Operations
 
 - **Cognito Sync**: Synchronize user profile data across mobile devices and the web without requiring your own backend
 
@@ -142,13 +151,13 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 - **Provisioned Concurrency**: Pre-initialized execution environments
 - **Account Concurrency Limit**: Default 1,000 concurrent executions per region
 
-### Integration
+### <a name="lambda-integration"></a>Integration
 
 - **Encryption helpers**: Environment variables to store secrets securely for use with Lambda functions. Lambda always encrypts environment variables at rest.
 - **Event source mapping**: AWS Lambda resource that reads from an event source and invokes a Lambda function. Services supported Amazon Kinesis, Amazon DynamoDB and Amazon Simple Queue Service.
 - **Lambda@Edge**: functions can only be created in the us-east-1.
 
-### Troubleshooting
+### <a name="lambda-troubleshooting"></a>Troubleshooting
 
 - **Maximum execution**: 900 seconds
 
@@ -240,13 +249,13 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 - **Global Secondary Index (GSI)**: Different partition key and optional sort key. Contains a set of attributes from the base table, but organized by a different primary key than the table. Need provision read and write capacity units.
 - **Sparse Indexes**: Only contain items that have the indexed attribute
 
-### Operations
+### <a name="dynamodb-operations"></a>Operations
 
 - **BatchGetItem**: Permits the retrieval of multiple items from one or more tables in a single operation
 - **Parallel Scan API**: Scan is distributed across your table’s partitions
 - **Limit parameter**: To control the amount of data returned per request, prevent throttling
 
-### Security
+### <a name="dynamodb-security"></a>Security
 
 - **IAM policy**: can restrict access to individual items in a table, access to the attributes in those items, or both at the same time.
 - **IAM Condition**: can allow or deny access to items and attributes in DynamoDB tables, indexes and key values.
@@ -402,7 +411,7 @@ Amazon Simple Queue Service (SQS) is a fully managed message queuing service tha
   - Implementing custom retry logic
 - Configure with `RedrivePolicy` that specifies `maxReceiveCount`
 
-### Operations
+### <a name="sqs-operations"></a>Operations
 
 - **VPC endpoint**: Communicate without traversing the public Internet
 - **Max message size**: Only supports messages up to 256KB in size
@@ -619,7 +628,7 @@ AWS Key Management Service (KMS) is a managed service that makes it easy for you
 - **Secrets Manager**: Encryption of secrets
 - **Systems Manager Parameter Store**: Encryption of secure string parameters
 
-### Troubleshooting
+### <a name="kms-troubleshooting"></a>Troubleshooting
 
 - **ThrottlingException**: Data key caching can improve performance, reduce cost, and help you stay within service limits as your application scales ( LocalCryptoMaterialsCache). Additionally, the developer can request an increase in the quota for AWS KMS.
 
@@ -665,7 +674,7 @@ Amazon API Gateway is a fully managed service that makes it easy for developers 
 - **API Keys**: Identify and authorize API clients
 - **Resource Policies**: Control who can invoke the API
 
-### Troubleshooting
+### <a name="api-gateway-troubleshooting"></a>Troubleshooting
 
 - **Cache**: The client must send a request that contains the Cache-Control: max-age=0 header.
 - **$connect and $disconnect**: these routes capture events when a user connects and disconnects from the WebSocket API.
@@ -739,7 +748,7 @@ AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web ap
 - **Web Server Environment**: For traditional web applications
 - **Worker Environment**: For background processing tasks
 
-### Troubleshooting
+### <a name="elastic-beanstalk-troubleshooting"></a>Troubleshooting
 
 - **.ebextensions**: Place yaml and json files with .config extension for the EB configuration.
 
