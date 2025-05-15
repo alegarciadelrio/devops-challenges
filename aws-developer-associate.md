@@ -244,7 +244,14 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 
 - **BatchGetItem**: Permits the retrieval of multiple items from one or more tables in a single operation
 - **Parallel Scan API**: Scan is distributed across your table’s partitions
-- **Limit parameter**: To control the amount of data returned per request, prevent throttsling.
+- **Limit parameter**: To control the amount of data returned per request, prevent throttsling
+
+### Security
+
+- **Read-only access**: To certain items and attributes in a table or a secondary index
+- **write-only access**: To certain attributes in a table, based upon the identity of that user
+
+---
 
 ### Provisioned Capacity
 
@@ -256,64 +263,6 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 - **WCU**: 
     - 1 WCU per standard write request up to 1KB/second.
     - 2 WCU per transactional write request up to 1KB/second.
-
-
-### <a name="dynamodb-code-examples"></a>Code Examples
-
-**DynamoDB Operations with AWS SDK for JavaScript:**
-```javascript
-const AWS = require('aws-sdk');
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
-
-// Put item
-async function createItem(tableName, item) {
-    const params = {
-        TableName: tableName,
-        Item: item
-    };
-    
-    try {
-        await dynamoDB.put(params).promise();
-        return { success: true };
-    } catch (error) {
-        console.error('Error creating item:', error);
-        return { success: false, error };
-    }
-}
-
-// Get item
-async function getItem(tableName, key) {
-    const params = {
-        TableName: tableName,
-        Key: key
-    };
-    
-    try {
-        const result = await dynamoDB.get(params).promise();
-        return result.Item;
-    } catch (error) {
-        console.error('Error getting item:', error);
-        return null;
-    }
-}
-
-// Query items
-async function queryItems(tableName, keyConditionExpression, expressionAttributeValues) {
-    const params = {
-        TableName: tableName,
-        KeyConditionExpression: keyConditionExpression,
-        ExpressionAttributeValues: expressionAttributeValues
-    };
-    
-    try {
-        const result = await dynamoDB.query(params).promise();
-        return result.Items;
-    } catch (error) {
-        console.error('Error querying items:', error);
-        return [];
-    }
-}
-```
 
 ---
 
