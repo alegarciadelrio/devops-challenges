@@ -954,6 +954,7 @@ Amazon CloudWatch is a monitoring and observability service that provides data a
 - **Metric Resolution**: Standard (1-minute) or High Resolution (1-second)
 - **Metric Math**: Perform calculations across multiple metrics
 - **Metric Retention**: 15 months by default, with different aggregation levels
+- **put-metric-data**: --namespace and --dimensions parameter are good to order the metrics
 
 ### Alarms
 
