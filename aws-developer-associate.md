@@ -248,6 +248,8 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 
 ### Security
 
+- **IAM policy**: can restrict access to individual items in a table, access to the attributes in those items, or both at the same time.
+- **IAM Condition**: can allow or deny access to items and attributes in DynamoDB tables, indexes and key values.
 - **Read-only access**: To certain items and attributes in a table or a secondary index
 - **write-only access**: To certain attributes in a table, based upon the identity of that user
 
