@@ -728,6 +728,8 @@ Elastic Load Balancing automatically distributes incoming application traffic ac
 - **SNI (Server Name Indication)**: Supports multiple TLS certificates on a single listener
 - **Access Logs**: Detailed information about requests (stored in S3)
 - **Integration**: Works with Auto Scaling, CloudWatch, AWS Certificate Manager
+- **SSL termination**: uses a server certificate to terminate the front-end connection
+- **SSL passthrough**: Used to forward encrypted packets directly to the EC2 instance for termination
 
 ---
 
