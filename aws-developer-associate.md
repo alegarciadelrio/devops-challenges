@@ -160,6 +160,7 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 ### <a name="lambda-troubleshooting"></a>Troubleshooting
 
 - **Maximum execution**: 900 seconds
+- **context.awsRequestId**: within the function to fetch the unique identifier associated with each invocation
 
 ### <a name="lambda-code-examples"></a>Code Examples
 
