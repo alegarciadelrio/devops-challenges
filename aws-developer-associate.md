@@ -724,6 +724,9 @@ AWS CloudFormation provides a common language to describe and provision all the 
 - **Ref**: Returns the value of the specified parameter or resource
 - **Fn::ImportValue**: Returns the value of an output exported by another stack
 
+### Operations
+
+- **!FindInMap**: Returns the value corresponding to keys in a two-level map  !FindInMap [ MapName, TopLevelKey, SecondLevelKey ]
 ---
 
 ## AWS CodeDeploy
