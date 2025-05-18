@@ -976,6 +976,7 @@ AWS Step Functions is a serverless orchestration service that lets you combine A
 
 - **IAM Access Analyzer**: Permits identify unused roles
 - **Deploy SSL/TLS server certificates**: AWS Certificate Manager and IAM
+- **Trust policy**: Only resource-based policy that the IAM service supports
 
 ---
 
