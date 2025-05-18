@@ -360,6 +360,7 @@ Amazon Simple Queue Service (SQS) is a fully managed message queuing service tha
 - **VPC endpoint**: Communicate without traversing the public Internet
 - **Max message size**: Only supports messages up to 256KB in size
 - **Deduplication**: FIFO queue and configure the Lambda function to add a message deduplication token to the message body
+- **DeleteQueue**: Deletes the queue specified by the QueueUrl, regardless of the queue's contents
 
 ### <a name="sqs-code-examples"></a>Code Examples
 
