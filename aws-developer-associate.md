@@ -255,6 +255,7 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 - **BatchGetItem**: Permits the retrieval of multiple items from one or more tables in a single operation
 - **Parallel Scan API**: Scan is distributed across your table’s partitions
 - **Limit parameter**: To control the amount of data returned per request, prevent throttling
+- **Backup**: EMR, Datapipeline or Glue
 
 ### <a name="dynamodb-security"></a>Security
 
@@ -262,6 +263,7 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 - **IAM Condition**: can allow or deny access to items and attributes in DynamoDB tables, indexes and key values.
 - **Read-only access**: To certain items and attributes in a table or a secondary index
 - **write-only access**: To certain attributes in a table, based upon the identity of that user
+- **UpdateItem**: Ation of DynamoDB APIs, edits an existing item's attributes or adds a new item
 
 ---
 
