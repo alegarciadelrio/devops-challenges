@@ -160,6 +160,7 @@ AWS Lambda is a serverless compute service that runs your code in response to ev
 
 - **Maximum execution**: 900 seconds
 - **context.awsRequestId**: within the function to fetch the unique identifier associated with each invocation
+- **Memory**: Lambda allocates CPU power in proportion to the amount of memory configured
 
 ### <a name="lambda-code-examples"></a>Code Examples
 
