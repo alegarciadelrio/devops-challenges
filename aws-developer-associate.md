@@ -696,8 +696,8 @@ AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web ap
 
 ### <a name="elastic-beanstalk-troubleshooting"></a>Troubleshooting
 
-- **.ebextensions**: Place yaml and json files with .config extension for the EB configuration.
-
+- **.ebextensions/**: Place yaml and json files with .config extension for the EB configuration.
+- **Burst balances were lost**: The deployment was either run with immutable updates or in traffic splitting mode
 ---
 
 ## AWS CloudFormation
