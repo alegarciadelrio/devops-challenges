@@ -728,6 +728,8 @@ AWS CloudFormation provides a common language to describe and provision all the 
 ### Operations
 
 - **!FindInMap**: Returns the value corresponding to keys in a two-level map  !FindInMap [ MapName, TopLevelKey, SecondLevelKey ]
+- **Conditions**: Only can be associated to Resources or Outputs sections
+
 ---
 
 ## AWS CodeDeploy
