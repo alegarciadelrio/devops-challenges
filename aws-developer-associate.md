@@ -979,7 +979,7 @@ AWS Step Functions is a serverless orchestration service that lets you combine A
 - **Deploy SSL/TLS server certificates**: AWS Certificate Manager and IAM
 - **Trust policy**: Only resource-based policy that the IAM service supports
 - **Access to Billing**: Activate IAM user access to the Billing and Cost Management console for all the users who need access
-
+- **CloudFront Key Pairs**: Only root user is able
 ---
 
 ## Exam Preparation Tips
