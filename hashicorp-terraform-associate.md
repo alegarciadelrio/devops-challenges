@@ -15,6 +15,7 @@
 ### Code block provider
 
 - **multiple providers**: use alias parameter. Allows differentiate between the different configurations of the same provider type.
+- **required_providers**: act as traffic controllers for your infrastructure tools. For aws minimum version ~> 5.36.0.
 
 ### Output block
 
@@ -52,9 +53,10 @@ Will prompt for user confirmation.
 - **remote**: supported
 - **github**: NOT supported
 
-## Cloud migration
+## Terraform Cloud
 
-- **Terraform Cloud**: configures the workspace to use the same version as the Terraform binary you used when migrating.
+- **Cloud migration**: configures the workspace to use the same version as the Terraform binary you used when migrating.
+- **SVN**: Github.com, Github Enterprise, Azure DevOps, Bitbucket cloud.
 
 ## Dependencies
 
