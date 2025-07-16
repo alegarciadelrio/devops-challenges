@@ -15,4 +15,5 @@
 - **s3**: supported
 - **consul**: supported
 - **local**: supported
+- **remote**: supported
 - **github**: NOT supported
