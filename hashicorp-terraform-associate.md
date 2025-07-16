@@ -1,3 +1,5 @@
+# Language
+- Terraform is an immutable, declarative, IasC provisioning language based on Hashicorp Configuration Language, or optionally JSON.
 
 # Code convention
 
@@ -10,10 +12,18 @@
 - **filter**: can filter by name or values.
 - **data.aws_ami.exanple.id**: way to refer the data retrieved from other resources.
 
+# Code block provider
+
+- **multiple providers**: use alias parameter. Allows differentiate between the different configurations of the same provider type.
+
 # Commands
 
 - **terraform validate**: used to check and report errors within modules.
 - **terraform apply**: maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
+
+## Terraform plan
+
+- **terraform plan**: preview the changes that will be made to the infrastructure without actually applying them
 
 ## Terraform state
 
