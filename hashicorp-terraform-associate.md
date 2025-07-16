@@ -6,13 +6,13 @@
 - **spaces**: 2 spaces between each nesting level in Terraform code for better readability and maintainability.
 - **default variable**: can't be empty {}
 
-# Code block data
+### Code block data
 
 - **data blocks**: used to retrieve data from external sources.
 - **filter**: can filter by name or values.
 - **data.aws_ami.exanple.id**: way to refer the data retrieved from other resources.
 
-# Code block provider
+### Code block provider
 
 - **multiple providers**: use alias parameter. Allows differentiate between the different configurations of the same provider type.
 
@@ -21,11 +21,11 @@
 - **terraform validate**: used to check and report errors within modules.
 - **terraform apply**: maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
 
-## Terraform plan
+### Terraform plan
 
 - **terraform plan**: preview the changes that will be made to the infrastructure without actually applying them
 
-## Terraform state
+### Terraform state
 
 - **terraform state**: manage and manipulate the Terraform state in various ways.
 - **state files** needed to track the current state of infrastructure resources and compare it to the desired state declared in configuration files.
