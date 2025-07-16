@@ -21,14 +21,20 @@
 - **terraform validate**: used to check and report errors within modules.
 - **terraform apply**: maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
 
+### Terraform init
+
+- **terraform init**: first command before plan.
+
 ### Terraform plan
 
-- **terraform plan**: preview the changes that will be made to the infrastructure without actually applying them
+- **terraform plan**: preview the changes that will be made to the infrastructure without actually applying them.
 
 ### Terraform state
 
 - **terraform state**: manage and manipulate the Terraform state in various ways.
-- **state files** needed to track the current state of infrastructure resources and compare it to the desired state declared in configuration files.
+- **state files**: needed to track the current state of infrastructure resources and compare it to the desired state declared in configuration files.
+- **terraform state rm**: permits remove a resource from the state, to prevent detroy it when you run `terraform destroy`.
+- **terraform state list**: see a list of all Terraform-managed resources.
 
 ## Terraform backend
 
