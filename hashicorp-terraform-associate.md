@@ -1,7 +1,7 @@
 # Language
 - Terraform is an immutable, declarative, IasC provisioning language based on Hashicorp Configuration Language, or optionally JSON.
 
-# Code convention
+## Code convention
 
 - **spaces**: 2 spaces between each nesting level in Terraform code for better readability and maintainability.
 - **default variable**: can't be empty {}
@@ -16,7 +16,7 @@
 
 - **multiple providers**: use alias parameter. Allows differentiate between the different configurations of the same provider type.
 
-# Commands
+## Commands
 
 - **terraform validate**: used to check and report errors within modules.
 - **terraform apply**: maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
@@ -30,7 +30,7 @@
 - **terraform state**: manage and manipulate the Terraform state in various ways.
 - **state files** needed to track the current state of infrastructure resources and compare it to the desired state declared in configuration files.
 
-# Terraform backend
+## Terraform backend
 
 - **s3**: supported
 - **consul**: supported
@@ -38,6 +38,10 @@
 - **remote**: supported
 - **github**: NOT supported
 
-# Cloud migration
+## Cloud migration
 
 - **Terraform Cloud**: configures the workspace to use the same version as the Terraform binary you used when migrating.
+
+## Dependencies
+
+- Declare a resource dependency, you can use the depends_on argument in a resource block. The depends_on argument takes a list of resource names and specifies that the resource block in which it is declared depends on those resources.
