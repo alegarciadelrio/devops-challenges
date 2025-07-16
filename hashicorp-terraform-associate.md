@@ -13,8 +13,12 @@
 # Commands
 
 - **terraform validate**: used to check and report errors within modules.
-- **terraform state**: manage and manipulate the Terraform state in various ways.
 - **terraform apply**: maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
+
+## Terraform state
+
+- **terraform state**: manage and manipulate the Terraform state in various ways.
+- **state files** needed to track the current state of infrastructure resources and compare it to the desired state declared in configuration files.
 
 # Terraform backend
 
@@ -24,3 +28,6 @@
 - **remote**: supported
 - **github**: NOT supported
 
+# Cloud migration
+
+- **Terraform Cloud**: configures the workspace to use the same version as the Terraform binary you used when migrating.
