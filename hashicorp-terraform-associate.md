@@ -15,4 +15,4 @@
 - **s3**: supported
 - **consul**: supported
 - **local**: supported
-- **github not**: supported
+- **github**: NOT supported
