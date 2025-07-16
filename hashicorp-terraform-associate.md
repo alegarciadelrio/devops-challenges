@@ -1,5 +1,7 @@
 # Language
 - Terraform is an immutable, declarative, IasC provisioning language based on Hashicorp Configuration Language, or optionally JSON.
+- **HCL**
+- **JSON**
 
 ## Code convention
 
@@ -72,3 +74,4 @@ Will prompt for user confirmation.
 - **Version**: release tag names to follow the x.y.z format and optionally be prefixed with a 'v' is valid.
 - **Module name**: repositories must use this three-part name format, terraform-<PROVIDER>-<NAME>
 - **Standard module structure**: allows the registry to inspect your module and generate documentation.
+- `source  = "terraform-vault-aws-tgw/hcp"` specify TPR.
