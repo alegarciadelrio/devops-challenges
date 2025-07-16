@@ -4,6 +4,12 @@
 - **spaces**: 2 spaces between each nesting level in Terraform code for better readability and maintainability.
 - **default variable**: can't be empty {}
 
+# Code block data
+
+- **data blocks**: used to retrieve data from external sources.
+- **filter**: can filter by name or values.
+- **data.aws_ami.exanple.id**: way to refer the data retrieved from other resources.
+
 # Commands
 
 - **terraform validate**: used to check and report errors within modules.
@@ -17,3 +23,4 @@
 - **local**: supported
 - **remote**: supported
 - **github**: NOT supported
+
