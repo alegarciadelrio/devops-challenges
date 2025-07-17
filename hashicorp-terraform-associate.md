@@ -1,4 +1,4 @@
-# HashiCorp Terraform Associate Certification Guide
+# 🛠️ HashiCorp Terraform Associate Certification Guide
 
 ## Table of Contents
 - [Language](#language)
@@ -23,6 +23,12 @@
 - JSON
 - Secrets: Terraform does not provide the ability to mask secrets in the Terraform plan and state files regardless of what provider you are using
 
+## OS Binary
+- Linux
+- Windows
+- macOS
+- Solaris
+- FreeBSD
 
 ## Code Convention
 
@@ -35,6 +41,20 @@
     ami           = "abc123" 
     instance_type = "t2.micro"
   ```
+- Types: string, number, bool, list (or tuple), map (or object)
+- Enable detail logging: `TF_LOG=DEBUG`
+- Variables name avoid:
+  - Reserved keywords: `source`,`version`, `providers`
+  - start with a number
+  - contain spaces or special characters
+  - only numbers
+
+### Block types
+- provider 
+- terraform 
+- output 
+- data 
+- resource
 
 ### Code Block Data
 - Data blocks are used to retrieve data from external sources
@@ -45,6 +65,11 @@
 - Multiple providers can be configured using the alias parameter
 - `required_providers` acts as a traffic controller for infrastructure tools
 - AWS provider minimum version: ~> 5.36.0
+- Provider dependencies are created when:
+  - `required_providers` is used (Optionally version)
+  - An existing resource is in the current state
+  - A resource is referenced in the configuration
+
 
 ### Output Block
 - Adding an output block to a module exposes the ID or value as an output variable that can be retrieved using `module.name.name_id`
@@ -54,6 +79,7 @@
 ### Terraform Init
 - First command to run before planning
 - Initializes the working directory
+- Automatically download community providers. 
 
 ### Terraform Validate
 - Checks for errors in the configuration files
@@ -84,6 +110,13 @@
 ### Terraform Import
 - Import existing infrastructure into Terraform state
 - Syntax: `terraform import aws_instance.web i-12345678`
+
+### Terraform Workspace
+- Terraform workspace is a way to manage multiple environments
+- Uses its own file for each workspace.
+- Syntax: `terraform workspace new <workspace_name>`
+- Syntax: `terraform workspace select <workspace_name>`
+- Syntax: `terraform workspace list`
 
 ### Terraform Destroy
 - Prompts for user confirmation before destroying resources
