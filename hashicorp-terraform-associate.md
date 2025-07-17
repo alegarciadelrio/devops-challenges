@@ -2,17 +2,29 @@
 
 ## Table of Contents
 - [Language](#language)
+- [OS Binary](#os-binary)
 - [Code Convention](#code-convention)
+  - [Variables](#variables)
+  - [Block Types](#block-types)
   - [Code Block Data](#code-block-data)
   - [Code Block Provider](#code-block-provider)
   - [Output Block](#output-block)
 - [Commands](#commands)
   - [Terraform Init](#terraform-init)
+  - [Terraform Validate](#terraform-validate)
+  - [Terraform Get](#terraform-get)
+  - [Terraform Refresh](#terraform-refresh)
   - [Terraform Plan](#terraform-plan)
+  - [Terraform Apply](#terraform-apply)
   - [Terraform State](#terraform-state)
+  - [Terraform Force-unlock](#terraform-force-unlock)
+  - [Terraform Import](#terraform-import)
+  - [Terraform Workspace](#terraform-workspace)
   - [Terraform Destroy](#terraform-destroy)
 - [Terraform Backend](#terraform-backend)
 - [Terraform Cloud](#terraform-cloud)
+  - [Private Registry](#private-registry)
+  - [Sentinel and OPA](#sentinel-and-opa)
 - [Dependencies](#dependencies)
 - [Files](#files)
 - [Terraform Public Registry](#terraform-public-registry)
@@ -93,6 +105,7 @@
 ### Terraform Plan
 - Preview changes to infrastructure without applying them
 - Shows what changes will be made
+- `terraform plan -refresh-only` command is used in Terraform to update the state of your infrastructure in memory without making any actual changes to the infrastructure.
 
 ### Terraform Apply
 - Applies the changes to the infrastructure
@@ -106,6 +119,9 @@
   - `terraform state rm`: Remove resource from state without destroying it
   - `terraform state list`: List all Terraform-managed resources
   - `terraform state mv`: update the state to match the current deployment. Terraform would not touch the actual resource that is deployed, but it would simply attach the existing object to the new address in Terraform.
+
+### Terraform force-unlock 
+- This command is specifically designed to force unlock the state file and allow modifications to be made.
 
 ### Terraform Import
 - Import existing infrastructure into Terraform state
@@ -138,10 +154,16 @@ Unsupported backend:
   - Azure DevOps
   - Bitbucket Cloud
 - **Private Registry**: publish custom modules in a private registry.
+- Sentinel and OPA with Terraform Cloud:
+  - Policy enforcement
+  - Governance, compliance, naming conventions, approved machine images, etc
+  - Security
+
 
 ## Dependencies
-- Use `depends_on` argument in resource blocks to declare dependencies
+- Explicit dependencies: Use `depends_on` argument in resource blocks to declare dependencies
 - Takes a list of resource names to specify dependencies
+- Implicit dependencies are not explicitly declared in the configuration but are automatically detected by Terraform.
 
 ## Files
 - Workspace states are stored in `terraform.tfstate.d/<workspace_name>` directory
