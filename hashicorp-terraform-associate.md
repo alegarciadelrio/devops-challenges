@@ -1,79 +1,98 @@
-# Language
-- Terraform is an immutable, declarative, IasC provisioning language based on Hashicorp Configuration Language, or optionally JSON.
-- **HCL**
-- **JSON**
+# HashiCorp Terraform Associate Certification Guide
 
-## Code convention
+## Table of Contents
+- [Language](#language)
+- [Code Convention](#code-convention)
+  - [Code Block Data](#code-block-data)
+  - [Code Block Provider](#code-block-provider)
+  - [Output Block](#output-block)
+- [Commands](#commands)
+  - [Terraform Init](#terraform-init)
+  - [Terraform Plan](#terraform-plan)
+  - [Terraform State](#terraform-state)
+  - [Terraform Destroy](#terraform-destroy)
+- [Terraform Backend](#terraform-backend)
+- [Terraform Cloud](#terraform-cloud)
+- [Dependencies](#dependencies)
+- [Files](#files)
+- [Terraform Public Registry](#terraform-public-registry)
 
-- **spaces**: 2 spaces between each nesting level in Terraform code for better readability and maintainability.
-- **default variable**: can't be empty {}
+## Language
+- Terraform is an immutable, declarative, IaC provisioning language based on HashiCorp Configuration Language (HCL) or optionally JSON
+- HCL (HashiCorp Configuration Language)
+- JSON
 
-### Code block data
+## Code Convention
 
-- **data blocks**: used to retrieve data from external sources.
-- **filter**: can filter by name or values.
-- **data.aws_ami.exanple.id**: way to refer the data retrieved from other resources.
+### Code Block Data
+- Data blocks are used to retrieve data from external sources
+- Filters can be applied to filter by name or values
+- Reference data from other resources using syntax like `data.aws_ami.example.id`
 
-### Code block provider
+### Code Block Provider
+- Multiple providers can be configured using the alias parameter
+- `required_providers` acts as a traffic controller for infrastructure tools
+- AWS provider minimum version: ~> 5.36.0
 
-- **multiple providers**: use alias parameter. Allows differentiate between the different configurations of the same provider type.
-- **required_providers**: act as traffic controllers for your infrastructure tools. For aws minimum version ~> 5.36.0.
-
-### Output block
-
-Adding an output block to a module allows the id or value to be exposed as an output variable. This output variable can then be retrieved using module.name.name_id.
+### Output Block
+Adding an output block to a module exposes the ID or value as an output variable that can be retrieved using `module.name.name_id`
 
 ## Commands
 
-- **terraform validate**: used to check and report errors within modules.
-- **terraform apply**: maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
+### Terraform Init
+- First command to run before planning
+- Initializes the working directory
 
-### Terraform init
+### Terraform Validate
+- Checks for errors in the configuration files
 
-- **terraform init**: first command before plan.
+### Terraform Plan
+- Preview changes to infrastructure without applying them
+- Shows what changes will be made
 
-### Terraform plan
+### Terraform Apply
+- Applies the changes to the infrastructure
+- Maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
 
-- **terraform plan**: preview the changes that will be made to the infrastructure without actually applying them.
+### Terraform State
+- Manage and manipulate Terraform state
+- State files track infrastructure resources and compare with desired state
+- Commands:
+  - `terraform state rm`: Remove resource from state without destroying it
+  - `terraform state list`: List all Terraform-managed resources
+  - `terraform state mv`: update the state to match the current deployment. Terraform would not touch the actual resource that is deployed, but it would simply attach the existing object to the new address in Terraform.
 
-### Terraform state
+### Terraform Destroy
+- Prompts for user confirmation before destroying resources
 
-- **terraform state**: manage and manipulate the Terraform state in various ways.
-- **state files**: needed to track the current state of infrastructure resources and compare it to the desired state declared in configuration files.
-- **terraform state rm**: permits remove a resource from the state, to prevent detroy it when you run `terraform destroy`.
-- **terraform state list**: see a list of all Terraform-managed resources.
-- **terraform state mv**: update the state to match the current deployment. Terraform would not touch the actual resource that is deployed, but it would simply attach the existing object to the new address in Terraform.
-
-### Terraform destroy
-
-Will prompt for user confirmation.
-
-## Terraform backend
-
-- **s3**: supported
-- **consul**: supported
-- **local**: supported
-- **remote**: supported
-- **github**: NOT supported
+## Terraform Backend
+Supported backends:
+- S3
+- Consul
+- Local
+- Remote
+Unsupported backend:
+- GitHub
 
 ## Terraform Cloud
-
-- **Cloud migration**: configures the workspace to use the same version as the Terraform binary you used when migrating.
-- **SVN**: Github.com, Github Enterprise, Azure DevOps, Bitbucket cloud.
+- Cloud migration configures workspace to use same version as Terraform binary
+- Supported version control systems:
+  - GitHub.com
+  - GitHub Enterprise
+  - Azure DevOps
+  - Bitbucket Cloud
 - **Private Registry**: publish custom modules in a private registry.
 
 ## Dependencies
-
-- Declare a resource dependency, you can use the depends_on argument in a resource block. The depends_on argument takes a list of resource names and specifies that the resource block in which it is declared depends on those resources.
+- Use `depends_on` argument in resource blocks to declare dependencies
+- Takes a list of resource names to specify dependencies
 
 ## Files
-
-- Terraform stores the workspace states in a directory called terraform.tfstate.d/<workspace_name>
+- Workspace states are stored in `terraform.tfstate.d/<workspace_name>` directory
 
 ## Terraform Public Registry
-
-- **Github**: module should published on github. Public access mode.
-- **Version**: release tag names to follow the x.y.z format and optionally be prefixed with a 'v' is valid.
-- **Module name**: repositories must use this three-part name format, terraform-<PROVIDER>-<NAME>
-- **Standard module structure**: allows the registry to inspect your module and generate documentation.
-- `source  = "terraform-vault-aws-tgw/hcp"` specify TPR.
+- Modules must be published on GitHub with public access
+- Version tags must follow x.y.z format (optional 'v' prefix)
+- Module names must follow format: `terraform-<PROVIDER>-<NAME>`
+- Standard module structure is required for registry inspection and documentation generation
+- Specify TPR using: `source = "terraform-vault-aws-tgw/hcp"`
