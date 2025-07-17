@@ -106,6 +106,7 @@
 - Preview changes to infrastructure without applying them
 - Shows what changes will be made
 - `terraform plan -refresh-only` command is used in Terraform to update the state of your infrastructure in memory without making any actual changes to the infrastructure.
+- `terraform plan -out=bryan` used to run a dry-run and save it on a file
 
 ### Terraform Apply
 - Applies the changes to the infrastructure
