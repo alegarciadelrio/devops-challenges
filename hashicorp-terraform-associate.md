@@ -21,6 +21,7 @@
 - Terraform is an immutable, declarative, IaC provisioning language based on HashiCorp Configuration Language (HCL) or optionally JSON
 - HCL (HashiCorp Configuration Language)
 - JSON
+- Terraform does not provide the ability to mask secrets in the Terraform plan and state files regardless of what provider you are using. 
 
 ## Code Convention
 
@@ -46,6 +47,12 @@ Adding an output block to a module exposes the ID or value as an output variable
 ### Terraform Validate
 - Checks for errors in the configuration files
 
+### Terraform Get
+- Downloads modules from the registry
+
+### Terraform Refresh
+- Refreshes the state of the infrastructure
+
 ### Terraform Plan
 - Preview changes to infrastructure without applying them
 - Shows what changes will be made
@@ -53,6 +60,7 @@ Adding an output block to a module exposes the ID or value as an output variable
 ### Terraform Apply
 - Applies the changes to the infrastructure
 - Maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
+- `terraform apply -replace=aws_instance.web` to mark the resource for replacement
 
 ### Terraform State
 - Manage and manipulate Terraform state
