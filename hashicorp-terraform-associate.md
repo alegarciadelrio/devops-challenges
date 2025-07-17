@@ -21,9 +21,20 @@
 - Terraform is an immutable, declarative, IaC provisioning language based on HashiCorp Configuration Language (HCL) or optionally JSON
 - HCL (HashiCorp Configuration Language)
 - JSON
-- Terraform does not provide the ability to mask secrets in the Terraform plan and state files regardless of what provider you are using. 
+- Secrets: Terraform does not provide the ability to mask secrets in the Terraform plan and state files regardless of what provider you are using
+
 
 ## Code Convention
+
+### Variables
+- In your Terraform code: `variable "bucket_name" { ... }`
+- In terraform.tfvars: `bucket_name = "my-bucket"`
+- Or via environment variable: `TF_VAR_bucket_name=my-bucket`
+- Align the equals signs
+  ```hcl
+    ami           = "abc123" 
+    instance_type = "t2.micro"
+  ```
 
 ### Code Block Data
 - Data blocks are used to retrieve data from external sources
@@ -36,7 +47,7 @@
 - AWS provider minimum version: ~> 5.36.0
 
 ### Output Block
-Adding an output block to a module exposes the ID or value as an output variable that can be retrieved using `module.name.name_id`
+- Adding an output block to a module exposes the ID or value as an output variable that can be retrieved using `module.name.name_id`
 
 ## Commands
 
@@ -70,6 +81,10 @@ Adding an output block to a module exposes the ID or value as an output variable
   - `terraform state list`: List all Terraform-managed resources
   - `terraform state mv`: update the state to match the current deployment. Terraform would not touch the actual resource that is deployed, but it would simply attach the existing object to the new address in Terraform.
 
+### Terraform Import
+- Import existing infrastructure into Terraform state
+- Syntax: `terraform import aws_instance.web i-12345678`
+
 ### Terraform Destroy
 - Prompts for user confirmation before destroying resources
 
@@ -97,6 +112,7 @@ Unsupported backend:
 
 ## Files
 - Workspace states are stored in `terraform.tfstate.d/<workspace_name>` directory
+- Downloaded provider plugins are stored in the `.terraform/providers` directory
 
 ## Terraform Public Registry
 - Modules must be published on GitHub with public access
