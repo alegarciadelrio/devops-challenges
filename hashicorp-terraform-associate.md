@@ -42,6 +42,7 @@ Adding an output block to a module allows the id or value to be exposed as an ou
 - **state files**: needed to track the current state of infrastructure resources and compare it to the desired state declared in configuration files.
 - **terraform state rm**: permits remove a resource from the state, to prevent detroy it when you run `terraform destroy`.
 - **terraform state list**: see a list of all Terraform-managed resources.
+- **terraform state mv**: update the state to match the current deployment. Terraform would not touch the actual resource that is deployed, but it would simply attach the existing object to the new address in Terraform.
 
 ### Terraform destroy
 
@@ -59,6 +60,7 @@ Will prompt for user confirmation.
 
 - **Cloud migration**: configures the workspace to use the same version as the Terraform binary you used when migrating.
 - **SVN**: Github.com, Github Enterprise, Azure DevOps, Bitbucket cloud.
+- **Private Registry**: publish custom modules in a private registry.
 
 ## Dependencies
 
