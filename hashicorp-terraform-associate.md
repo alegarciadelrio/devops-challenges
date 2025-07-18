@@ -76,7 +76,7 @@
 
 ### Code Block Provider
 - A plugin that Terraform uses to interact with a cloud provider or other infrastructure service
-- Multiple providers can be configured using the alias parameter
+- Multiple providers can be configured using the `alias` parameter, great for `multi region`
 - `required_providers` acts as a traffic controller for infrastructure tools
 - AWS provider minimum version: ~> 5.36.0
 - Provider dependencies are created when:
@@ -169,7 +169,7 @@ Has the following files:
   - Azure DevOps
   - Bitbucket Cloud
 - Sentinel and OPA with Terraform Cloud:
-  - Policy enforcement
+  - Policy enforcement as a framework
   - Governance, compliance, naming conventions, approved machine images, etc
   - Security
 
@@ -198,6 +198,7 @@ Has the following files:
 ## HCP Terraform
 - Needs API key to manage
 - Workspace will be associated with a single repository
+- Workspaces can be created/switched directly within the HCP Terraform web interface without the need to use the CLI
 
 ## HashiCorp Vault
 - Best way to read and write secrets is using a vault provider.
