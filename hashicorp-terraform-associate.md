@@ -129,6 +129,7 @@
 
 ### Terraform Import
 - Import existing infrastructure into Terraform state
+- Before importing, update the Terraform configuration file to include the new resources that match the resources you want to import
 - Syntax: `terraform import aws_instance.web i-12345678`
 
 ### Terraform Workspace
@@ -167,7 +168,6 @@ Has the following files:
   - GitHub Enterprise
   - Azure DevOps
   - Bitbucket Cloud
-- **Private Registry**: publish custom modules in a private registry.
 - Sentinel and OPA with Terraform Cloud:
   - Policy enforcement
   - Governance, compliance, naming conventions, approved machine images, etc
@@ -190,6 +190,14 @@ Has the following files:
 - Module names must follow format: `terraform-<PROVIDER>-<NAME>`
 - Standard module structure is required for registry inspection and documentation generation
 - Specify TPR using: `source = "terraform-vault-aws-tgw/hcp"`
+
+## Private Registry
+- Publish custom modules in a private registry
+- Version tags must follow `x.y.z` format (optional 'v' prefix)
+
+## HCP Terraform
+- Needs API key to manage
+- Workspace will be associated with a single repository
 
 ## HashiCorp Vault
 - Best way to read and write secrets is using a vault provider.
