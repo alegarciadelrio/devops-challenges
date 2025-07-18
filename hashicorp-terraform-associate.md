@@ -62,6 +62,10 @@
   - contain spaces or special characters
   - only numbers
 
+### Lists
+- Lists are ordered collections of values
+- Syntax: ["string1", "string2", "string3"]
+
 ### Block types
 - provider 
 - terraform 
@@ -88,15 +92,24 @@
 ### Output Block
 - Adding an output block to a module exposes the ID or value as an output variable that can be retrieved using `module.name.name_id`
 
+### Dynamic Block
+- Dynamic blocks allow you to create a list of resources based on a variable
+
 ## Commands
 
 ### Terraform Init
 - First command to run before planning
 - Initializes the working directory
-- Automatically download community providers. 
+- Automatically download community providers
+- Initializes the backend configuration
+- Download providers plugins
+- Download modules from the registry
 
 ### Terraform Validate
 - Checks for errors in the configuration files
+
+### Terraform fmt
+- Formats the configuration files
 
 ### Terraform Get
 - Downloads modules from the registry
@@ -124,6 +137,9 @@
   - `terraform state mv`: update the state to match the current deployment. Terraform would not touch the actual resource that is deployed, but it would simply attach the existing object to the new address in Terraform.
 - state locking, ensure the state does not become corrupt with the remote state
 
+### Terraform Show
+- Inspect the state file
+
 ### Terraform force-unlock 
 - This command is specifically designed to force unlock the state file and allow modifications to be made.
 
@@ -144,22 +160,21 @@
 - Prompts for user confirmation before destroying resources
 
 ## Terraform Backend
-Supported backends:
-- S3
-- Consul
-- Local
-- Remote
-Unsupported backend:
-- GitHub
-
-Ways to pass secrets to the terraform backend:
-- HashiCorp Vault
-- Interactevely through command line
-- `-backend-config=PATH` to specify a separate file for backend configuration
-
-Has the following files:
-- state file
-- config file
+- Supported backends:
+    - S3
+    - Consul
+    - Local
+    - Remote
+- Unsupported backend:
+    - GitHub
+- Ways to pass secrets to the terraform backend:
+    - HashiCorp Vault
+    - Interactevely through command line
+    - `-backend-config=PATH` to specify a separate file for backend configuration
+- Has the following files:
+    - state file
+    - config file
+- Dynamic backend in Terraform is used to configure different backend configurations based on conditions or variables
 
 ## Terraform Cloud
 - Cloud migration configures workspace to use same version as Terraform binary
@@ -172,7 +187,6 @@ Has the following files:
   - Policy enforcement as a framework
   - Governance, compliance, naming conventions, approved machine images, etc
   - Security
-
 
 ## Dependencies
 - Explicit dependencies: Use `depends_on` argument in resource blocks to declare dependencies
