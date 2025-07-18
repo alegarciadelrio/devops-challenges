@@ -34,6 +34,7 @@
 - HCL (HashiCorp Configuration Language)
 - JSON
 - Secrets: Terraform does not provide the ability to mask secrets in the Terraform plan and state files regardless of what provider you are using
+- Can be used across major cloud providers and VM hypervisors
 
 ## OS Binary
 - Linux
@@ -74,6 +75,7 @@
 - Reference data from other resources using syntax like `data.aws_ami.example.id`
 
 ### Code Block Provider
+- A plugin that Terraform uses to interact with a cloud provider or other infrastructure service
 - Multiple providers can be configured using the alias parameter
 - `required_providers` acts as a traffic controller for infrastructure tools
 - AWS provider minimum version: ~> 5.36.0
@@ -180,6 +182,7 @@ Has the following files:
 ## Files
 - Workspace states are stored in `terraform.tfstate.d/<workspace_name>` directory
 - Downloaded provider plugins are stored in the `.terraform/providers` directory
+- Terraform community store state files on the current working directory
 
 ## Terraform Public Registry
 - Modules must be published on GitHub with public access
