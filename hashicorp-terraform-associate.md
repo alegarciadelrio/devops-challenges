@@ -81,7 +81,7 @@
   - `required_providers` is used (Optionally version)
   - An existing resource is in the current state
   - A resource is referenced in the configuration
-
+- Good practice, declare the required version of a provider
 
 ### Output Block
 - Adding an output block to a module exposes the ID or value as an output variable that can be retrieved using `module.name.name_id`
@@ -120,6 +120,7 @@
   - `terraform state rm`: Remove resource from state without destroying it
   - `terraform state list`: List all Terraform-managed resources
   - `terraform state mv`: update the state to match the current deployment. Terraform would not touch the actual resource that is deployed, but it would simply attach the existing object to the new address in Terraform.
+- state locking, ensure the state does not become corrupt with the remote state
 
 ### Terraform force-unlock 
 - This command is specifically designed to force unlock the state file and allow modifications to be made.
@@ -134,6 +135,7 @@
 - Syntax: `terraform workspace new <workspace_name>`
 - Syntax: `terraform workspace select <workspace_name>`
 - Syntax: `terraform workspace list`
+- Terraform workspaces Community and HCP are differents
 
 ### Terraform Destroy
 - Prompts for user confirmation before destroying resources
@@ -146,6 +148,15 @@ Supported backends:
 - Remote
 Unsupported backend:
 - GitHub
+
+Ways to pass secrets to the terraform backend:
+- HashiCorp Vault
+- Interactevely through command line
+- `-backend-config=PATH` to specify a separate file for backend configuration
+
+Has the following files:
+- state file
+- config file
 
 ## Terraform Cloud
 - Cloud migration configures workspace to use same version as Terraform binary
@@ -176,3 +187,6 @@ Unsupported backend:
 - Module names must follow format: `terraform-<PROVIDER>-<NAME>`
 - Standard module structure is required for registry inspection and documentation generation
 - Specify TPR using: `source = "terraform-vault-aws-tgw/hcp"`
+
+## HashiCorp Vault
+- Best way to read and write secrets is using a vault provider.
