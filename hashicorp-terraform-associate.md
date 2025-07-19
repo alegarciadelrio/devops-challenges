@@ -104,6 +104,7 @@
 - Initializes the backend configuration
 - Download providers plugins
 - Download modules from the registry
+- `terraform init -upgrade` to upgrade plugins and modules to the latest version
 
 ### Terraform Validate
 - Checks for errors in the configuration files
