@@ -200,7 +200,7 @@
 ## Dependencies
 - Explicit dependencies: Use `depends_on` argument in resource blocks to declare dependencies
 - Takes a list of resource names to specify dependencies
-- Implicit dependencies are not explicitly declared in the configuration but are automatically detected by Terraform.
+- Implicit dependencies are not explicitly declared in the configuration but are automatically detected by Terraform
 
 ## Files
 - Workspace states are stored in `terraform.tfstate.d/<workspace_name>` directory
@@ -222,7 +222,8 @@
 - Needs API key to manage
 - Workspace will be associated with a single repository
 - Workspaces can be created/switched directly within the HCP Terraform web interface without the need to use the CLI
-- Uses workspaces to manage collections of infrastructure, while the CLI manages collections of infrastructure resources within a persistent working directory.
+- Uses workspaces to manage collections of infrastructure, while the CLI manages collections of infrastructure resources within a persistent working directory
 
 ## HashiCorp Vault
-- Best way to read and write secrets is using a vault provider.
+- Best way to read and write secrets is using a vault provider
+- Access `access_key = data.vault_aws_access_credentials.creds.access_key`
