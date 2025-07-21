@@ -62,6 +62,7 @@
   - start with a number
   - contain spaces or special characters
   - only numbers
+- `aws_instance.database["nomad"]` to refer `for_each` meta-argument
 
 ### Lists
 - Lists are ordered collections of values
@@ -206,6 +207,7 @@
 - Workspace states are stored in `terraform.tfstate.d/<workspace_name>` directory
 - Downloaded provider plugins are stored in the `.terraform/providers` directory
 - Terraform community store state files on the current working directory
+- No mandatory `main.tf`
 
 ## Terraform Public Registry
 - Modules must be published on GitHub with public access
