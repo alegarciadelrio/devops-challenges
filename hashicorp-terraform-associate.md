@@ -79,6 +79,7 @@
 - Data blocks are used to retrieve data from external sources
 - Filters can be applied to filter by name or values
 - Reference data from other resources using syntax like `data.aws_ami.example.id`
+- Called `data source` as well
 
 ### Code Block Provider
 - A plugin that Terraform uses to interact with a cloud provider or other infrastructure service
@@ -168,6 +169,7 @@
 ### Terraform Destroy
 - Prompts for user confirmation before destroying resources
 - `terraform destroy -auto-approve` to destroy resources without confirmation
+- `terraform destroy -target=azurerm_resource_group.production` to destroy particular resource
 
 ### Terraform Output
 - Used to display the values of outputs defined in the Terraform configuration
@@ -238,6 +240,15 @@
 - Remote runs
 - VCS connection
 
+## HCP Terraform agents
+- Bridge between HCP and the infraestructure (Permits plan and apply)
+
 ## HashiCorp Vault
 - Best way to read and write secrets is using a vault provider
 - Access `access_key = data.vault_aws_access_credentials.creds.access_key`
+
+## Security
+- Ways to provide credentials to terraform
+  - By the provider block hardcoding
+  - By environment variables
+  - By integrated services IAM or Azure Managment Service Identity. 
