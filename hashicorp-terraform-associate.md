@@ -56,6 +56,7 @@
   ```
 - Types: string, number, bool, list (or tuple), map (or object)
 - Enable detail logging: `TF_LOG=DEBUG`
+- Enable most verbose level, providing the most detailed and specific logs `TF_LOG=TRACE`
 - Variables name avoid:
   - Reserved keywords: `source`,`version`, `providers`
   - start with a number
@@ -218,6 +219,7 @@
 - Needs API key to manage
 - Workspace will be associated with a single repository
 - Workspaces can be created/switched directly within the HCP Terraform web interface without the need to use the CLI
+- Uses workspaces to manage collections of infrastructure, while the CLI manages collections of infrastructure resources within a persistent working directory.
 
 ## HashiCorp Vault
 - Best way to read and write secrets is using a vault provider.
