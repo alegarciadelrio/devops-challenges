@@ -108,6 +108,7 @@
 
 ### Terraform Validate
 - Checks for errors in the configuration files
+- Variable is being used in a resource block but has not been declared
 
 ### Terraform fmt
 - Formats the configuration files
@@ -117,6 +118,7 @@
 
 ### Terraform Refresh
 - Refreshes the state of the infrastructure
+- `terraform apply -refresh-only` is used to reconcile the state with the real-world infrastructure by refreshing the state without making any changes
 
 ### Terraform Plan
 - Preview changes to infrastructure without applying them
@@ -159,6 +161,7 @@
 
 ### Terraform Destroy
 - Prompts for user confirmation before destroying resources
+- `terraform destroy -auto-approve` to destroy resources without confirmation
 
 ## Terraform Backend
 - Supported backends:
