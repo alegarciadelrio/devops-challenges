@@ -234,6 +234,9 @@
 - Workspace will be associated with a single repository
 - Workspaces can be created/switched directly within the HCP Terraform web interface without the need to use the CLI
 - Uses workspaces to manage collections of infrastructure, while the CLI manages collections of infrastructure resources within a persistent working directory
+- Private registry
+- Remote runs
+- VCS connection
 
 ## HashiCorp Vault
 - Best way to read and write secrets is using a vault provider
