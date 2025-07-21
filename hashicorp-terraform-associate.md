@@ -97,6 +97,9 @@
 ### Dynamic Block
 - Dynamic blocks allow you to create a list of resources based on a variable
 
+### Locals Block
+- `locals {}` block type is used to define local variables within a Terraform module
+
 ## Commands
 
 ### Terraform Init
@@ -175,7 +178,7 @@
     - S3
     - Consul
     - Local
-    - Remote
+    - Remote (Can support or not state locking)
 - Unsupported backend:
     - GitHub
 - Ways to pass secrets to the terraform backend:
@@ -186,6 +189,11 @@
     - state file
     - config file
 - Dynamic backend in Terraform is used to configure different backend configurations based on conditions or variables
+
+## Terraform modules
+- Store remotely or locally
+- Code reuse
+- Enable versioning
 
 ## Terraform Cloud
 - Cloud migration configures workspace to use same version as Terraform binary
