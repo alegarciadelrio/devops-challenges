@@ -105,6 +105,7 @@
 - Download providers plugins
 - Download modules from the registry
 - `terraform init -upgrade` to upgrade plugins and modules to the latest version
+- Terraform would use the existing module already downloaded if you remove the version attribute
 
 ### Terraform Validate
 - Checks for errors in the configuration files
