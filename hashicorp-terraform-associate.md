@@ -170,6 +170,7 @@
 - Used to display the values of outputs defined in the Terraform configuration
 
 ## Terraform Backend
+- Defines where state data is stored and how operations are performed, but it does not provide an abstraction above the upstream API
 - Supported backends:
     - S3
     - Consul
