@@ -165,6 +165,9 @@
 - Prompts for user confirmation before destroying resources
 - `terraform destroy -auto-approve` to destroy resources without confirmation
 
+### Terraform Output
+- Used to display the values of outputs defined in the Terraform configuration
+
 ## Terraform Backend
 - Supported backends:
     - S3
