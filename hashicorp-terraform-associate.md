@@ -75,13 +75,18 @@
 - data 
 - resource
 
-### Code Block Data
+### Terraform Block
+- Only constants are allowed
+- Input variables not allowed
+
+
+### Data Block
 - Data blocks are used to retrieve data from external sources
 - Filters can be applied to filter by name or values
 - Reference data from other resources using syntax like `data.aws_ami.example.id`
 - Called `data source` as well
 
-### Code Block Provider
+### Provider Block
 - A plugin that Terraform uses to interact with a cloud provider or other infrastructure service
 - Multiple providers can be configured using the `alias` parameter, great for `multi region`
 - `required_providers` acts as a traffic controller for infrastructure tools
