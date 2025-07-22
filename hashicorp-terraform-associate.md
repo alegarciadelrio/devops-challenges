@@ -79,7 +79,6 @@
 - Only constants are allowed
 - Input variables not allowed
 
-
 ### Data Block
 - Data blocks are used to retrieve data from external sources
 - Filters can be applied to filter by name or values
@@ -137,6 +136,7 @@
 - Shows what changes will be made
 - `terraform plan -refresh-only` command is used in Terraform to update the state of your infrastructure in memory without making any actual changes to the infrastructure.
 - `terraform plan -out=bryan` used to run a dry-run and save it on a file
+- `terraform plan -destroy` used to run a plan to destroy the infrastructure
 
 ### Terraform Apply
 - Applies the changes to the infrastructure
@@ -222,8 +222,11 @@
 ## Files
 - Workspace states are stored in `terraform.tfstate.d/<workspace_name>` directory
 - Downloaded provider plugins are stored in the `.terraform/providers` directory
-- Terraform community store state files on the current working directory
+- Terraform community store `state` files on the current working directory
 - No mandatory `main.tf`
+- `.tfstate` file mandatory and not encrypted
+- `.tfstate.backup` file come up after a destoy and not encrypted
+- `.terraform.lock.info` file come up on action over state file, it is to lock the state
 
 ## Terraform Public Registry
 - Modules must be published on GitHub with public access
