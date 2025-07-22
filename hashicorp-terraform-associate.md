@@ -68,6 +68,16 @@
 - Lists are ordered collections of values
 - Syntax: ["string1", "string2", "string3"]
 
+### Meta arguments
+- `depends_on`
+- `count` or `for each`
+- `provider`
+- lifecycle
+  - `create_before_destroy` for example change ami of ec2 instance
+  - `prevent destroy` for example keep an s3 bucket
+  - `replace_triggered_by` replaces a resouce when an item change
+  - `ignore_changes` provide a list of attributes that should not trigger an update
+
 ### Block types
 - provider 
 - terraform 
