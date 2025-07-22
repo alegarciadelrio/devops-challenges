@@ -90,7 +90,7 @@
 - A plugin that Terraform uses to interact with a cloud provider or other infrastructure service
 - Multiple providers can be configured using the `alias` parameter, great for `multi region`
 - `required_providers` acts as a traffic controller for infrastructure tools
-- AWS provider minimum version: ~> 5.36.0
+- AWS provider minimum version: `~> 5.36.0`
 - Provider dependencies are created when:
   - `required_providers` is used (Optionally version)
   - An existing resource is in the current state
