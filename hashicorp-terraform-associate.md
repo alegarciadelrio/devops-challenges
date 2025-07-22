@@ -181,6 +181,7 @@
 
 ## Terraform Backend
 - Defines where state data is stored and how operations are performed, but it does not provide an abstraction above the upstream API
+- Requires authentication
 - Supported backends:
     - S3
     - Consul
@@ -196,6 +197,9 @@
     - state file
     - config file
 - Dynamic backend in Terraform is used to configure different backend configurations based on conditions or variables
+- Backend block can't receive input var, resource ref and data sources
+- When changes are made, we must re run `terraform init`
+- `terraform init -migrate-state` to migrate the state file when you change backend directory
 
 ## Terraform modules
 - Store remotely or locally
