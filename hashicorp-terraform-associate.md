@@ -118,6 +118,7 @@
 
 ### Dynamic Block
 - Dynamic blocks allow you to create a list of resources based on a variable
+- Produces nested configuration blocks instead of a complex typed value
 
 ### Locals Block
 - `locals {}` block type is used to define local variables within a Terraform module
@@ -140,6 +141,7 @@
 
 ### Terraform fmt
 - Formats the configuration files
+- `-recursive` flag to also process files in subdirectories
 
 ### Terraform Get
 - Downloads modules from the registry
