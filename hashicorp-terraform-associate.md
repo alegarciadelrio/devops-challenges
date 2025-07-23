@@ -207,7 +207,7 @@
     - S3
     - Consul
     - Local
-    - Remote (Can support or not state locking)
+    - Remote (Can support or not state locking, HCP Terraform)
 - Unsupported backend:
     - GitHub
 - Ways to pass secrets to the terraform backend:
