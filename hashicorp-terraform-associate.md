@@ -135,6 +135,7 @@
 - Initializes the working directory
 - Automatically download community providers
 - Initializes the backend configuration
+- Caches the source code locally for referenced modules
 - Download providers plugins
 - Download modules from the registry
 - `terraform init -upgrade` to upgrade plugins and modules to the latest version
@@ -210,6 +211,7 @@
     - Consul
     - Local
     - Remote (Can support or not state locking, HCP Terraform)
+    - Kubernetes
 - Unsupported backend:
     - GitHub
 - Ways to pass secrets to the terraform backend:
@@ -228,6 +230,7 @@
 - Store remotely or locally
 - Code reuse
 - Enable versioning
+- Stored in `.terraform/modules`
 
 ## Terraform Cloud
 - Cloud migration configures workspace to use same version as Terraform binary
@@ -240,6 +243,7 @@
   - Policy enforcement as a framework
   - Governance, compliance, naming conventions, approved machine images, etc
   - Security
+- Sentinel policies run after the plan, run tasks, cost estimation phases but before the apply phase
 
 ## Dependencies
 - Explicit dependencies: Use `depends_on` argument in resource blocks to declare dependencies
