@@ -46,6 +46,7 @@
 ## Code Convention
 
 ### Variables
+- Called expressions
 - In your Terraform code: `variable "bucket_name" { ... }`
 - In terraform.tfvars: `bucket_name = "my-bucket"`
 - Or via environment variable: `TF_VAR_bucket_name=my-bucket`
@@ -77,6 +78,12 @@
   - `prevent destroy` for example keep an s3 bucket
   - `replace_triggered_by` replaces a resouce when an item change
   - `ignore_changes` provide a list of attributes that should not trigger an update
+
+#### for_each
+- When using a for_each argument in a resource block `each.value.ip`
+
+### Functions
+- min, max, format, join, trim, and length
 
 ### Block types
 - provider 
@@ -171,6 +178,7 @@
 ### Terraform Import
 - Import existing infrastructure into Terraform state
 - Before importing, update the Terraform configuration file to include the new resources that match the resources you want to import
+- The terraform import command does not automatically update the referenced Terraform resource block after importing the resource
 - Syntax: `terraform import aws_instance.web i-12345678`
 
 ### Terraform Workspace
