@@ -67,7 +67,11 @@
 
 ### Lists
 - Lists are ordered collections of values
-- Syntax: ["string1", "string2", "string3"]
+- Syntax: `["string1", "string2", "string3"]`
+
+### Maps
+- Allows for creating a collection of key-value pairs
+- Syntax: `{ name = "John" age = 52 }`
 
 ### Meta arguments
 - `depends_on`
@@ -147,10 +151,6 @@
 ### Terraform Get
 - Downloads modules from the registry
 
-### Terraform Refresh
-- Refreshes the state of the infrastructure
-- `terraform apply -refresh-only` is used to reconcile the state with the real-world infrastructure by refreshing the state without making any changes
-
 ### Terraform Plan
 - Preview changes to infrastructure without applying them
 - Shows what changes will be made
@@ -162,6 +162,8 @@
 - Applies the changes to the infrastructure
 - Maximum of 10 concurrent resource operations. Controlled by parallelism configuration.
 - `terraform apply -replace=aws_instance.web` to mark the resource for replacement
+- `terraform apply -refresh-only` is used to reconcile the state with the real-world infrastructure by refreshing the state without making any changes
+- `terraform apply -destroy`
 
 ### Terraform State
 - Manage and manipulate Terraform state
