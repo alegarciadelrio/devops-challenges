@@ -112,6 +112,7 @@
   - An existing resource is in the current state
   - A resource is referenced in the configuration
 - Good practice, declare the required version of a provider
+- Not a required block
 
 ### Output Block
 - Adding an output block to a module exposes the ID or value as an output variable that can be retrieved using `module.name.name_id`
