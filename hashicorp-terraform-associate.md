@@ -65,6 +65,12 @@
   - only numbers
 - `aws_instance.database["nomad"]` to refer `for_each` meta-argument
 
+## Collections types
+- list
+- map
+- object
+- tuple
+
 ### Lists
 - Lists are ordered collections of values
 - Syntax: `["string1", "string2", "string3"]`
