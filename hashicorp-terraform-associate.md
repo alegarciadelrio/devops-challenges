@@ -61,11 +61,11 @@
 - Types: string, number, bool, list (or tuple), map (or object)
 - Enable detail logging: `TF_LOG=DEBUG`
 - Enable most verbose level, providing the most detailed and specific logs `TF_LOG=TRACE`
-- Variables name avoid:
+- Variables name to avoid:
   - Reserved keywords: `source`,`version`, `providers`
-  - start with a number
-  - contain spaces or special characters
-  - only numbers
+  - Start with a number
+  - Contain spaces or special characters
+  - Only numbers
 - `aws_instance.database["nomad"]` to refer `for_each` meta-argument
 
 ## Collections types
