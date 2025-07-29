@@ -287,6 +287,7 @@
 - Private registry
 - Remote runs
 - VCS connection
+- HCP Terraform/Terraform Cloud workspace linked to a version control repository, speculative plan runs start automatically when you merge or commit changes to version control
 
 ## HCP Terraform agents
 - Bridge between HCP and the infraestructure (Permits plan and apply)
