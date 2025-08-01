@@ -5,10 +5,13 @@
 - [OS Binary](#os-binary)
 - [Code Convention](#code-convention)
   - [Variables](#variables)
+  - [Collections Types](#collections-types)
+    - [Lists](#lists)
+    - [Maps](#maps)
+    - [Meta Arguments](#meta-arguments)
+      - [for_each](#for-each)
+    - [Functions](#functions)
   - [Block Types](#block-types)
-  - [Code Block Data](#code-block-data)
-  - [Code Block Provider](#code-block-provider)
-  - [Output Block](#output-block)
 - [Commands](#commands)
   - [Terraform Init](#terraform-init)
   - [Terraform Validate](#terraform-validate)
@@ -58,11 +61,11 @@
 - Types: string, number, bool, list (or tuple), map (or object)
 - Enable detail logging: `TF_LOG=DEBUG`
 - Enable most verbose level, providing the most detailed and specific logs `TF_LOG=TRACE`
-- Variables name avoid:
+- Variables name to avoid:
   - Reserved keywords: `source`,`version`, `providers`
-  - start with a number
-  - contain spaces or special characters
-  - only numbers
+  - Start with a number
+  - Contain spaces or special characters
+  - Only numbers
 - `aws_instance.database["nomad"]` to refer `for_each` meta-argument
 
 ## Collections types
@@ -288,6 +291,7 @@
 - Private registry
 - Remote runs
 - VCS connection
+- HCP Terraform/Terraform Cloud workspace linked to a version control repository, speculative plan runs start automatically when you merge or commit changes to version control
 
 ## HCP Terraform agents
 - Bridge between HCP and the infraestructure (Permits plan and apply)
