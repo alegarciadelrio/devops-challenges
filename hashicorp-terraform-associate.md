@@ -109,6 +109,10 @@
 - Only constants are allowed
 - Input variables not allowed
 
+### Resource Block
+- `prevent_destroy` to prevent the resource from being destroyed
+
+
 ### Data Block
 - Data blocks are used to retrieve data from external sources
 - Filters can be applied to filter by name or values
