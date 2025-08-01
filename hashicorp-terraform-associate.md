@@ -155,6 +155,10 @@
 - Formats the configuration files
 - `-recursive` flag to also process files in subdirectories
 
+### Terraform console
+- Interactive console for testing expressions
+- Locks the state file
+
 ### Terraform Get
 - Downloads modules from the registry
 
