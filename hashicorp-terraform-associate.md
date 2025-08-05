@@ -175,6 +175,7 @@
 - `terraform plan -refresh-only` command is used in Terraform to update the state of your infrastructure in memory without making any actual changes to the infrastructure.
 - `terraform plan -out=bryan` used to run a dry-run and save it on a file
 - `terraform plan -destroy` used to run a plan to destroy the infrastructure
+- `terraform plan -var-file=terraform.tfvars` used to run a plan with a specific variable file
 
 ### Terraform Apply
 - Applies the changes to the infrastructure
